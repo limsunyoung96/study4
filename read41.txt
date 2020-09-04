@@ -1,0 +1,14 @@
+read41.txt
+
+과제 : com.study.member.web.MemberController 작성 
+
+  공통코드 : 직업목록, 취미목록은 별도 메서드로 분리하여 처리  
+  memberList 반환이 void 로 해서 작성 
+  memberForm 반환이 void 로 해서 작성 
+  memberRegist 반환이 MAV , @RequestMapping 에서 POST 제한
+  memberView 반환 String, @RequestMapping 에서 memId 파라미터가 존재하도록 제한
+  memberEdit 반환 String, @RequestMapping 에서 memId 파라미터가 존재하도록 제한
+  memberModify 반환 String, @RequestMapping 에서 memId 파라미터, POST 제한
+  memberDelete 반환 String, @RequestMapping 에서 memId, memPass파라미터, POST 제한
+  
+  

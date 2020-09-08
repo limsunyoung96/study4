@@ -21,6 +21,11 @@ public class MemberServiceImpl implements IMemberService {
 	public void registMember(MemberVO member) throws BizDuplicateKeyException {
 		try (SqlSession sqlSession = factory.openSession()) {
 			IMemberDao memberDao = sqlSession.getMapper(IMemberDao.class);
+			// 회원이 존재하는지 먼저 조회
+			MemberVO vo = memberDao.getMember(member.getMemId());
+			if(vo != null) {
+				throw new BizDuplicateKeyException();
+			}
 			memberDao.insertMember(member);
 			sqlSession.commit();
 		}

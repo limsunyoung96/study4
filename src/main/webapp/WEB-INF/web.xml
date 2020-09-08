@@ -2,11 +2,11 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	version="3.1">	
+	version="3.1">
 	<display-name>study4</display-name>
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>		
-		<welcome-file>index.html</welcome-file>		
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<!-- The definition of the Root Spring Container shared by all Servlets 
@@ -37,27 +37,58 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!--  url-pattern : 4가지 
-	      확장자 매핑 : *.soju  , * 시작하고 확장자 (회사도메인, *.nhn)   
-	      경로 매핑   : /board/* , "/" 로 시작하고 "/*" 로 끝나는 패턴  
-	      default 서블릿 매핑 : /   , 이미 등록된 매핑을 제외하고 모든 요청을 처리
-	                                  (jsp 매핑은 WAS에 이미 등록 되어있습니다.) 
-	      완전 매핑   : /admin/hello.do  , "/" 시작하고 완전한 하나의 url을 가지는 매핑 
-	      위 조건에 안맞으면 오류 
-	 -->	
-	 
+
+	<!-- url-pattern : 4가지 확장자 매핑 : *.soju , * 시작하고 확장자 (회사도메인, *.nhn) 경로 매핑 
+		: /board/* , "/" 로 시작하고 "/*" 로 끝나는 패턴 default 서블릿 매핑 : / , 이미 등록된 매핑을 제외하고 
+		모든 요청을 처리 (jsp 매핑은 WAS에 이미 등록 되어있습니다.) 완전 매핑 : /admin/hello.do , "/" 시작하고 
+		완전한 하나의 url을 가지는 매핑 위 조건에 안맞으면 오류 -->
+
 	<filter>
 		<filter-name>encoding-filter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
-		</filter-class>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
 	</filter>
+	
+		<filter>
+		<filter-name>logging</filter-name>
+		<filter-class>com.study.filter.LoggingFilter</filter-class>
+	</filter>
+
+
+	<filter>
+		<filter-name>loginCheck</filter-name>
+		<filter-class>com.study.filter.LoginCheckFilter</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>managerCheck</filter-name>
+		<filter-class>com.study.filter.ManagerCheckFilter</filter-class>
+	</filter>
+	
+	<!-- filter-mapping 등록된 순서 및 매핑정보로 체인 설정 -->
+	<filter-mapping>
+		<filter-name>logging</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<filter-mapping>
 		<filter-name>encoding-filter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>	 
-	 
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>loginCheck</filter-name>
+		<url-pattern>/mypage/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>managerCheck</filter-name>
+		<url-pattern>/member/*</url-pattern>
+	</filter-mapping>
+
+
+
 </web-app>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -13,7 +15,8 @@
 		<h3>글 등록</h3>
 	</div>
 	<div class="row" >
-	<form action="freeRegist.wow" method="post">	
+	<%-- <form action="freeRegist.wow" method="post"> --%>
+	<form:form action="freeRegist.wow" modelAttribute="boardVO">
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />
@@ -21,16 +24,24 @@
 		</colgroup>
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="boTitle" value="" class="form-control input-sm" ></td>
+			<td><!-- <input type="text" name="boTitle" value="" class="form-control input-sm" > -->
+				<form:input path="boTitle" cssClass="form-control input-sm"/>
+				<form:errors path="boTitle" />
+			</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="boWriter" value=""  class="form-control input-sm" ></td>
+			<td><!-- <input type="text" name="boWriter" value=""  class="form-control input-sm" > -->
+				<form:input path="boWriter" cssClass="form-control input-sm"/>
+				<form:errors path="boWriter" />
+			</td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
-			<td><input type="password" name="boPass" value="" class="form-control input-sm">
+			<td><!-- <input type="password" name="boPass" value="" class="form-control input-sm"> -->
+				<form:password path="boPass" cssClass="form-control input-sm"/>
 				<span >수정 또는 삭제시에 필요합니다.</span>
+				<form:errors path="boPass" />
 			</td>
 		</tr>
 		<tr>
@@ -41,6 +52,7 @@
 				<option value="${code.commCd}">${code.commNm}</option>
 				</c:forEach>
 				</select>
+				<form:errors path="boCategory" />
 			</td>
 		</tr>
 		<tr>
@@ -49,7 +61,8 @@
 		</tr>			
 		<tr>
 			<th>내용</th>
-			<td><textarea rows="3" name="boContent" class="form-control"></textarea>
+			<td><%-- <textarea rows="3" name="boContent" class="form-control"></textarea> --%>
+			<form:textarea path="boContent" cssClass="form-control"/>
 			</td>
 		</tr>
 		<tr>
@@ -63,7 +76,7 @@
 			</td>
 		</tr>
 	</table>
-	</form>
+	</form:form>
 	</div>
 	
 </div>

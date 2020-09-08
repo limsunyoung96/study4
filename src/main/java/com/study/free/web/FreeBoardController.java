@@ -3,9 +3,13 @@ package com.study.free.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,21 +34,24 @@ public class FreeBoardController {
 
 	IFreeBoardService freeBoardService = new FreeBoardServiceImpl();
 	ICommonCodeService codeService = new CommonCodeServiceImpl();
-		
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	// @ModelAttribute 를 통해 공통으로 사용되는 모델객체 ( 일반적으로 공통코드 목록)
 	// 요청메서드 진입 전에 호출 됩니다.
-	@ModelAttribute("cateList")
+	@ModelAttribute("categoryList")
 	public List<CodeVO> getCetegoryList() {
-		System.out.println("getCetegoryList call");
-	 	List<CodeVO> cateList = codeService.getCodeListByParent("BC00");
-		return cateList;
+		logger.debug("getCetegoryList call");
+		//System.out.println("getCetegoryList call");
+	 	List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
+		return categoryList;
 	}
-	
+	 
 	
 	@RequestMapping(value= {"/free/freeList.wow", "/free/"})
 	public String freeList(@ModelAttribute("searchVO") FreeBoardSearchVO searchVO
 			             , ModelMap model ) throws Exception {
-		System.out.println("freeList 메서드 call");
+		logger.debug("freeList 메서드 call");
+		//System.out.println("freeList 메서드 call");
 		// 파라미터에 선언한 커멘드 객체는 자동으로 모델에 저장 
 		// 이름은 첫글자 소문자 클래스명 
 		// 모델정보를 저장 할때는 request 보다는 ModelMap, Model, Map 을 활용 
@@ -56,19 +63,20 @@ public class FreeBoardController {
 	}
 	
 	@RequestMapping("/free/freeView.wow")
-	public String freeView(@RequestParam(value = "boNo")  int no 
+	public String freeView(@RequestParam(value = "boNo") int no 
 		  , @RequestParam(value = "mode" , required = false, defaultValue = "HaEun") String mode
 		  , ModelMap model) throws Exception {
-		try {			
-			System.out.println(mode);
+		try {		
+			logger.debug("mode :{} ", mode);
+			//System.out.println(mode);
 			FreeBoardVO free = freeBoardService.getBoard(no);
 			if(free != null){
 				freeBoardService.increaseHit(no);
 			}
-			model.addAttribute("free", free);			
+			model.addAttribute("boardVo", free);			
 			return "free/freeView";	
 		} catch (BizNotFoundException ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(),ex);
 			ResultMessageVO message = new ResultMessageVO();
 			message.setResult(false)
 			       .setTitle("조회실패")
@@ -82,77 +90,125 @@ public class FreeBoardController {
 	
 
 	@RequestMapping("/free/freeForm.wow")
-	public void freeForm(ModelMap model) throws Exception {
-		// @ModelAttribute 를 통해 처리 되었슴
-	 	// List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
-	 	// model.addAttribute("cateList", categoryList);
+	public String freeForm(@ModelAttribute("boardVO") @Valid FreeBoardVO free
+								, BindingResult errors
+								, ModelMap model) throws Exception {
+		// 스프링 폼태그 사용시 해당 모델이름으로 속성에 저장이 되어 있어야 하므로
+		// @ModelAttribute를 사용하여 모델 저장. 아래로 대체할 수 있지만 위의 방법을 추천
+		// FreeBoardVO vo = new FreeBoardVO();
+		// model.addAttribute("boardVO", free);
+		logger.debug("board={}", free);
+		try {
+			model.addAttribute("boardVO", free);
+			List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
+			model.addAttribute("categorylist", categoryList);
+			return "free/freeForm";
+
+		} catch (DaoDuplicateKeyException ex) {
+			logger.error(ex.getMessage(),ex);
+			ResultMessageVO message = new ResultMessageVO();
+			message.setResult(false)
+				 	 .setTitle("등록 실패")
+				 	 .setMessage("해당 글 번호가 존재합니다.")
+				 	 .setUrl("/free/freeList.wow")
+					.setUrlTitle("목록으로");
+			model.addAttribute("messageVO", message);
+			return "common/message";
+		}
 		
 	}	
 	
 	@RequestMapping(path = "/free/freeRegist.wow"
 			       , method = RequestMethod.POST )
-	public ModelAndView freeRegist(FreeBoardVO board, HttpServletRequest req) throws Exception {
+	public ModelAndView freeRegist(@ModelAttribute("boardVO") @Valid FreeBoardVO board
+										, BindingResult errors
+										, HttpServletRequest req) throws Exception {
+		logger.debug("board={}", board);
+				
 		ModelAndView mav = new ModelAndView();
-		ResultMessageVO message = new ResultMessageVO();		
-		try {
-			board.setBoIp(req.getRemoteAddr());
-			freeBoardService.registBoard(board);	
-			// 글 입력 성공시 메시지를 보여줄 필요 없이 바로 목록으로 가고자 한다면 
-			// return "redirect:/free/freeList.wow";
-			mav.setViewName("redirect:/free/freeList.wow");
-			
-		} catch (DaoDuplicateKeyException e) {
-			e.printStackTrace();
-			message.setResult(false)
-			         .setTitle("글 등록 실패")
-			         .setMessage("해당 글번호가 존재합니다.")
-			         .setUrl("/free/freeList.wow")
-			         .setUrlTitle("목록으로");
-			// 속성에 messageVO 로 저장 
-			mav.addObject("messageVO", message);
-			mav.setViewName("common/message");
-		}				
-		return mav;
+		ResultMessageVO message = new ResultMessageVO();	
+		
+		if(errors.hasErrors()){
+			mav.setViewName("");
+			//return mav;
+		}//else {
+			try {
+				board.setBoIp(req.getRemoteAddr());
+				freeBoardService.registBoard(board);	
+				// 글 입력 성공시 메시지를 보여줄 필요 없이 바로 목록으로 가고자 한다면 
+				// return "redirect:/free/freeList.wow";
+				mav.setViewName("redirect:/free/freeList.wow");
+				
+			} catch (DaoDuplicateKeyException e) {
+				logger.error(e.getMessage(),e);
+				message.setResult(false)
+				         .setTitle("글 등록 실패")
+				         .setMessage("해당 글번호가 존재합니다.")
+				         .setUrl("/free/freeList.wow")
+				         .setUrlTitle("목록으로");
+				// 속성에 messageVO 로 저장 
+				mav.addObject("messageVO", message);
+				mav.setViewName("common/message");
+			}				
+			return mav;
+		//}
 	}
 	
 	
 	// freeEdit
 	@RequestMapping("/free/freeEdit.wow")
 	public String freeEdit(int boNo, ModelMap model) {
-
+		logger.debug("boNo={}", boNo);
 		try {
 			FreeBoardVO free = freeBoardService.getBoard(boNo);
-			model.addAttribute("free", free);
+			model.addAttribute("boardVO", free);
+			List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
+			model.addAttribute("categorylist", categoryList);
 			return "free/freeEdit";
 
 		} catch (BizNotFoundException ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage(),ex);
 			ResultMessageVO message = new ResultMessageVO();
-			message.setResult(false).setTitle("조회 실패").setMessage("해당 글이 존재하지 않습니다.").setUrl("/free/freeList.wow")
+			message.setResult(false)
+					.setTitle("조회 실패")
+					.setMessage("해당 글이 존재하지 않습니다.")
+					.setUrl("/free/freeList.wow")
 					.setUrlTitle("목록으로");
 			model.addAttribute("messageVO", message);
 			return "common/message";
 		}
 	}
 	
+	
 	// freeModify
 	@RequestMapping("/free/freeModify.wow")
-	public String freeModify(FreeBoardVO board, ModelMap model) throws Exception {
-		ResultMessageVO messageVO = new ResultMessageVO();
+	// @ModelAttribute는 별칭을 주는 기능이 있고, 
+	public String freeModify(@ModelAttribute("boardVO") @Valid FreeBoardVO board
+								, BindingResult errors
+								, ModelMap model) throws Exception {
+		logger.debug("board={}", board);
+		List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
+		model.addAttribute("categorylist", categoryList);
 		
+		if(errors.hasErrors()) {
+			//검증 오류가 있으므로 입력화면으로 뷰 이동
+			return "free/freeEdit";
+		}
+		
+		ResultMessageVO messageVO = new ResultMessageVO();
 		try {
 			freeBoardService.modifyBoard(board);
 			return "redirect:/free/freeView.wow?boNo=" + board.getBoNo();  
 			
 		} catch (BizNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			messageVO.setResult(false)  
 					 .setTitle("글 수정 실패")
 					 .setMessage("해당 글이 존재하지 않습니다.")
 					 .setUrl("/free/freeList.wow")
 					 .setUrlTitle("목록으로"); // Method Chaining
 		} catch (BizPasswordNotMatchedException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			messageVO.setResult(false)  
 		     		 .setTitle("글 수정 실패")
 		     		 .setMessage("해당 글 비밀번호가 일치하지 않습니다.")
@@ -166,6 +222,7 @@ public class FreeBoardController {
 	
 	@RequestMapping("/free/freeDelete.wow")
 	public String freeDelete(FreeBoardVO board, ModelMap model) throws Exception {
+		logger.debug("board={}", board);
 		ResultMessageVO messageVO = new ResultMessageVO();
 		try {
 			freeBoardService.removeBoard(board);
@@ -177,7 +234,7 @@ public class FreeBoardController {
 				     .setUrlTitle("목록으로"); // Method Chaining
 			
 		} catch (BizNotFoundException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			messageVO.setResult(false)  
 					 .setTitle("글 삭제 실패")
 					 .setMessage("해당 글이 존재하지 않습니다.")
@@ -185,7 +242,7 @@ public class FreeBoardController {
 					 .setUrlTitle("목록으로"); // Method Chaining
 			
 		} catch (BizPasswordNotMatchedException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(),e);
 			messageVO.setResult(false)  
 					 .setTitle("글 삭제 실패")
 					 .setMessage("해당 글 비밀번호가 일치하지 않습니다.")
@@ -196,6 +253,8 @@ public class FreeBoardController {
 		model.addAttribute("messageVO", messageVO);
 		return "common/message";
 	}
+	
+	
 	
 }
 

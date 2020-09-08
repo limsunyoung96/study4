@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,8 +15,11 @@
     <h3>자유게시판 - <small>글 수정</small></h3>
   </div>
 	
-	<form action="freeModify.wow" method="post">
-	<input type="hidden" name="boNo" value="${boardVO.boNo}">	
+	<%-- <form action="freeModify.wow" method="post"> --%>
+	<form:form action="freeModify.wow" modelAttribute="boardVO">
+	<%-- <input type="hidden" name="boNo" value="${boardVO.boNo}"> --%>	
+	<form:hidden path="boNo"/>
+	
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />
@@ -27,16 +31,24 @@
     </tr>
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="boTitle" value="${boardVO.boTitle}" class="form-control input-sm" required="required" ></td>
+			<td><%-- <input type="text" name="boTitle" value="${boardVO.boTitle}" class="form-control input-sm"> --%>
+				<form:input path="boTitle" cssClass="form-control input-sm"/>
+				<form:errors path="boTitle"/>
+			</td>
+			
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="boWriter" value="${boardVO.boWriter}"  class="form-control input-sm" required="required" ></td>
+			<td><%-- <input type="text" name="boWriter" value="${boardVO.boWriter}"  class="form-control input-sm"> --%>
+				<form:input path="boWriter" cssClass="form-control input-sm"/>
+				<form:errors path="boWriter"/>
+			</td>
 		</tr>
 		<tr>
-			<th>비밀번호</th>
+			<th>비밀번호</th> <!-- required="required" pattern="\w{4,}" -->
 			<td><input type="password" name="boPass" value="" class="form-control input-sm" 
-			           required="required" pattern="\w{4,}" title="알파벳과 숫자로 4글자 이상 입력" >
+			            title="알파벳과 숫자로 4글자 이상 입력" >
+			        <form:errors path="boPass"/>    
 				   <span class="text-danger">
 				    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> 
 				    글 등록시에 입력한 비밀번호를 입력하세요.
@@ -46,7 +58,7 @@
 		<tr>
 			<th>분류</th>
 			<td>
-				<select name="boCategory" class="form-control input-sm" required="required" >
+				<select name="boCategory" class="form-control input-sm" >
 					<option value="">-- 선택하세요--</option>		
 						<c:forEach items="${categorylist}" var="code">
 							<option value="${code.commCd}" ${code.commCd eq boardVO.boCategory ? "selected='selected'": "" }>${code.commNm}</option>
@@ -56,8 +68,9 @@
 					<option value="BC03" selected="selected" >사는 이야기</option>
 					<option value="BC04">취업</option> -->
 				</select>
+				 <form:errors path="boCategory"/> 
 			</td>
-		</tr>					
+		</tr>				 	
 		<tr>
 			<th>내용</th>
 			<td><textarea rows="10" name="boContent" class="form-control input-sm">${boardVO.boContent}</textarea>
@@ -99,7 +112,7 @@
 			</td>
 		</tr>
 	</table>
-	</form>
+	</form:form>
 </div><!-- container -->
 </body>
 </html>

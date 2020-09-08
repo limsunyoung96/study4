@@ -25,7 +25,6 @@ public class LoggingFilter implements Filter {
 
 		// 전처리
 		long startTime = System.currentTimeMillis();
-		
 		chain.doFilter(request, response);
 
 		// 후처리

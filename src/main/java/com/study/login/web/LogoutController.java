@@ -18,7 +18,7 @@ public class LogoutController implements IController {
 		HttpSession session = req.getSession();
 		UserVO user = (UserVO) session.getAttribute("USER_INFO");
 		loginService.logout(user);
-		
+
 		session.invalidate();
 		return "redirect:/";
 	}

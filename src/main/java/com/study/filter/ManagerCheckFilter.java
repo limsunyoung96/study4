@@ -13,24 +13,30 @@ import javax.servlet.http.HttpSession;
 
 import com.study.login.vo.UserVO;
 
-public class LoginCheckFilter implements Filter {
+public class ManagerCheckFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
-		// 요청전에 세션에 "USER_INFO"가 존재하면 들여보내고
-		// 없으면 "/login/login.wow"로 리다이렉트
-
+		
+		//전처리
+		//요청 전에 "USER_INFO"가 존재하면 들여보내고, 없으면 login페이지로 리다이렉트
+		
 		HttpServletRequest req = (HttpServletRequest)request;
+		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
 		UserVO user = (UserVO) session.getAttribute("USER_INFO");
 		
 		if(user == null) {
 			((HttpServletResponse)response).sendRedirect(req.getContextPath()+"/login/login.wow");
+		} else if(!user.getUserRole().contains("MANAGER")) {
+			resp.sendError(resp.SC_NOT_ACCEPTABLE);
 		} else {
 			chain.doFilter(request, response);
 		}
+		
+		//후처리
 
-	}// doFilter
+	}
+
 }

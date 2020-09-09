@@ -47,11 +47,16 @@
 		<tr>
 			<th>분류</th>
 			<td>
-				<select name="boCategory" class="form-control input-sm" required="required">
+			<form:select path="boCategory" cssClass="form-control input-sm">
+				<option value="" >--- 선택하세요 ---</option>
+					<form:options items="${categoryList}" itemLabel="commNm" itemValue="commCd" />
+			</form:select>
+			<form:errors path="boCategory"/>
+				<%-- <select name="boCategory" class="form-control input-sm" required="required">
 				<c:forEach items="${categoryList}" var="code">
 				<option value="${code.commCd}">${code.commNm}</option>
 				</c:forEach>
-				</select>
+				</select> --%>
 				<form:errors path="boCategory" />
 			</td>
 		</tr>

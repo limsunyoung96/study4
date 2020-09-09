@@ -3,43 +3,47 @@ package com.study.free.vo;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.study.common.valid.ModifyType;
+
 @SuppressWarnings("serial")
 public class FreeBoardVO implements Serializable {
-	
-	// @NotNull(message="글 번호는 필수입니다.")
-	// @Positive(message="글 번호가 비었습니다.")
-	private int boNo;                  /* 글 번호 */
-	
-	@NotBlank(message="제목은 필수입니다.")
-	@Size(min=1, message= "최소 한 글자 이상 입력하세요.")
-	private String boTitle;            /* 글 제목 */
-	
-	@NotBlank(message="글 분류는 필수입니다.")
-	private String boCategory;         /* 글 분류 코드 */
-	
-	@NotBlank(message="작성자는 필수입니다.")
-	@Pattern(regexp = "[가-힣]{2,}", message="한글 2글자 이상입니다.")
-	private String boWriter;           /* 작성자명 */
-	
-	@NotBlank(message="비밀번호는 필수입니다.")
-	@Pattern(regexp = "\\w{4,16}", message="알파벳, 숫자, 언더바(_) 4글자 이상 16글자 이하입니다.")
-	private String boPass;             /* 비밀번호 */
-	private String boContent;          /* 글 내용 */
-	private String boIp;               /* 등록자 IP */
-	private int boHit;                 /* 조회수 */
-	private String boRegDate;          /* 등록 일자 */
-	private String boModDate;          /* 수정 일자 */
-	private String boDelYn;            /* 삭제 여부 */
-	
+
+	@NotNull(message = "글 번호는 필수입니다.", groups = ModifyType.class)
+	@Positive(message = "글 번호가 비었습니다.", groups = ModifyType.class)
+	private int boNo; /* 글 번호 */
+
+	@NotBlank(message = "제목은 필수입니다.")
+	@Size(min = 1, message = "최소 한 글자 이상 입력하세요.")
+	private String boTitle; /* 글 제목 */
+
+	@NotBlank(message = "글 분류는 필수입니다.")
+	private String boCategory; /* 글 분류 코드 */
+
+	@NotBlank(message = "작성자는 필수입니다.")
+	@Pattern(regexp = "[가-힣]{2,}", message = "한글 2글자 이상입니다.")
+	private String boWriter; /* 작성자명 */
+
+	@NotBlank(message = "비밀번호는 필수입니다.")
+	@Pattern(regexp = "\\w{4,16}", message = "알파벳, 숫자, 언더바(_) 4글자 이상 16글자 이하입니다.")
+	private String boPass; /* 비밀번호 */
+	private String boContent; /* 글 내용 */
+	private String boIp; /* 등록자 IP */
+	private int boHit; /* 조회수 */
+	private String boRegDate; /* 등록 일자 */
+	private String boModDate; /* 수정 일자 */
+	private String boDelYn; /* 삭제 여부 */
+
 	// 추가된 필드,
-	private String boCategoryNm;       /* 글 분류 명 */
-	
+	private String boCategoryNm; /* 글 분류 명 */
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
@@ -64,6 +68,7 @@ public class FreeBoardVO implements Serializable {
 	public String getBoCategory() {
 		return boCategory;
 	}
+
 	public String getBoCategoryNm() {
 		return boCategoryNm;
 	}

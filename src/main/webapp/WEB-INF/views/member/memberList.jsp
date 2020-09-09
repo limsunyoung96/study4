@@ -136,14 +136,14 @@
 			</thead>
 			<tbody>
 			<!-- 아래의 스크립트 코드를 EL/JSTL 사용해서 변경 -->
-			<c:forEach var="members" items="${members}">
+			<c:forEach var="member" items="${members}">
 				<tr>
-					<td>${members.memId }</td>
-					<td><a href="memberView.wow?memId=${members.memId}">${members.memName}</a></td>
-					<td>${members.memHp}</td>
-					<td>${members.memBir}</td>
-					<td>${members.memJobNm}</td>
-					<td>${members.memMileage}</td>
+					<td>${member.memId }</td>
+					<td><a href="memberView.wow?memId=${member.memId}">${member.memName}</a></td>
+					<td>${member.memHp}</td>
+					<td>${member.memBir}</td>
+					<td>${member.memJobNm}</td>
+					<td>${member.memMileage}</td>
 				</tr>
 			</c:forEach>
 			</tbody>

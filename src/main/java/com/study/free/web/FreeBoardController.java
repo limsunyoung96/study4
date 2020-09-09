@@ -3,13 +3,14 @@ package com.study.free.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.validation.groups.Default;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.study.code.service.CommonCodeServiceImpl;
 import com.study.code.service.ICommonCodeService;
 import com.study.code.vo.CodeVO;
+import com.study.common.valid.ModifyType;
+import com.study.common.valid.RegistType;
 import com.study.common.vo.ResultMessageVO;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
@@ -90,37 +93,15 @@ public class FreeBoardController {
 	
 
 	@RequestMapping("/free/freeForm.wow")
-	public String freeForm(@ModelAttribute("boardVO") @Valid FreeBoardVO free
-								, BindingResult errors
-								, ModelMap model) throws Exception {
+	public void freeForm(@ModelAttribute("boardVO") FreeBoardVO free) throws Exception {
 		// 스프링 폼태그 사용시 해당 모델이름으로 속성에 저장이 되어 있어야 하므로
 		// @ModelAttribute를 사용하여 모델 저장. 아래로 대체할 수 있지만 위의 방법을 추천
-		// FreeBoardVO vo = new FreeBoardVO();
-		// model.addAttribute("boardVO", free);
-		logger.debug("board={}", free);
-		try {
-			model.addAttribute("boardVO", free);
-			List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
-			model.addAttribute("categorylist", categoryList);
-			return "free/freeForm";
-
-		} catch (DaoDuplicateKeyException ex) {
-			logger.error(ex.getMessage(),ex);
-			ResultMessageVO message = new ResultMessageVO();
-			message.setResult(false)
-				 	 .setTitle("등록 실패")
-				 	 .setMessage("해당 글 번호가 존재합니다.")
-				 	 .setUrl("/free/freeList.wow")
-					.setUrlTitle("목록으로");
-			model.addAttribute("messageVO", message);
-			return "common/message";
-		}
 		
 	}	
 	
 	@RequestMapping(path = "/free/freeRegist.wow"
 			       , method = RequestMethod.POST )
-	public ModelAndView freeRegist(@ModelAttribute("boardVO") @Valid FreeBoardVO board
+	public ModelAndView freeRegist(@ModelAttribute("boardVO") @Validated({Default.class, RegistType.class}) FreeBoardVO board
 										, BindingResult errors
 										, HttpServletRequest req) throws Exception {
 		logger.debug("board={}", board);
@@ -129,29 +110,26 @@ public class FreeBoardController {
 		ResultMessageVO message = new ResultMessageVO();	
 		
 		if(errors.hasErrors()){
-			mav.setViewName("");
-			//return mav;
-		}//else {
-			try {
-				board.setBoIp(req.getRemoteAddr());
-				freeBoardService.registBoard(board);	
-				// 글 입력 성공시 메시지를 보여줄 필요 없이 바로 목록으로 가고자 한다면 
-				// return "redirect:/free/freeList.wow";
-				mav.setViewName("redirect:/free/freeList.wow");
-				
-			} catch (DaoDuplicateKeyException e) {
-				logger.error(e.getMessage(),e);
-				message.setResult(false)
-				         .setTitle("글 등록 실패")
-				         .setMessage("해당 글번호가 존재합니다.")
-				         .setUrl("/free/freeList.wow")
-				         .setUrlTitle("목록으로");
-				// 속성에 messageVO 로 저장 
-				mav.addObject("messageVO", message);
-				mav.setViewName("common/message");
-			}				
+			mav.setViewName("/free/freeForm");
 			return mav;
-		//}
+		}
+		try {
+			board.setBoIp(req.getRemoteAddr());
+			freeBoardService.registBoard(board);
+			// 글 입력 성공시 메시지를 보여줄 필요 없이 바로 목록으로 가고자 한다면
+			// return "redirect:/free/freeList.wow";
+			mav.setViewName("redirect:/free/freeList.wow");
+
+		} catch (DaoDuplicateKeyException e) {
+			logger.error(e.getMessage(), e);
+			message.setResult(false).setTitle("글 등록 실패").setMessage("해당 글번호가 존재합니다.").setUrl("/free/freeList.wow")
+					.setUrlTitle("목록으로");
+			// 속성에 messageVO 로 저장
+			mav.addObject("messageVO", message);
+			mav.setViewName("common/message");
+		}
+		return mav;
+
 	}
 	
 	
@@ -162,8 +140,7 @@ public class FreeBoardController {
 		try {
 			FreeBoardVO free = freeBoardService.getBoard(boNo);
 			model.addAttribute("boardVO", free);
-			List<CodeVO> categoryList = codeService.getCodeListByParent("BC00");
-			model.addAttribute("categorylist", categoryList);
+			model.addAttribute("categorylist", getCetegoryList());
 			return "free/freeEdit";
 
 		} catch (BizNotFoundException ex) {
@@ -183,7 +160,8 @@ public class FreeBoardController {
 	// freeModify
 	@RequestMapping("/free/freeModify.wow")
 	// @ModelAttribute는 별칭을 주는 기능이 있고, 
-	public String freeModify(@ModelAttribute("boardVO") @Valid FreeBoardVO board
+	// validated({ModifyType.class})만 쓰면 다른거 있어도 안하고 modifyType.class를 groups로 갖는 boNo만 확인함. 따라서 Defalut.calss 필요
+	public String freeModify(@ModelAttribute("boardVO") @Validated({Default.class, ModifyType.class}) FreeBoardVO board
 								, BindingResult errors
 								, ModelMap model) throws Exception {
 		logger.debug("board={}", board);

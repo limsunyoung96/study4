@@ -58,17 +58,19 @@
 		<tr>
 			<th>분류</th>
 			<td>
-				<select name="boCategory" class="form-control input-sm" >
+				<%-- <select name="boCategory" class="form-control input-sm" >
 					<option value="">-- 선택하세요--</option>		
 						<c:forEach items="${categorylist}" var="code">
 							<option value="${code.commCd}" ${code.commCd eq boardVO.boCategory ? "selected='selected'": "" }>${code.commNm}</option>
 						</c:forEach>			
-					<!-- <option value="BC01">프로그램</option>
-					<option value="BC02">웹</option>
-					<option value="BC03" selected="selected" >사는 이야기</option>
-					<option value="BC04">취업</option> -->
-				</select>
-				 <form:errors path="boCategory"/> 
+				</select> --%>
+				<td>
+				<form:select path="boCategory" cssClass="form-control input-sm">
+					<option value="" >--- 선택하세요 ---</option>
+					<form:options items="${categoryList}" itemLabel="commNm" itemValue="commCd" />
+				</form:select>
+				<form:errors path="boCategory"/>
+				
 			</td>
 		</tr>				 	
 		<tr>

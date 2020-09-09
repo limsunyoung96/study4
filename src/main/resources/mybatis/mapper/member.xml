@@ -16,20 +16,17 @@
 		<if
 			test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchWord)">
 			<choose>
-				<when test='searchType == "N"'>
+				<when test='searchType == "IM"'>
 					AND mem_name LIKE '%' || #{searchWord} || '%'
 				</when>
-				<when test='searchType == "I"'>
+				<when test='searchType == "ID"'>
 					AND mem_id LIKE '%' || #{searchWord} || '%'
 				</when>
-				<when test='searchType == "H"'>
+				<when test='searchType == "HP"'>
 					AND mem_hp LIKE '%' || #{searchWord} || '%'
 				</when>
-				<when test='searchType == "A1"'>
+				<when test='searchType == "ADDR"'>
 					AND mem_add1 LIKE '%' || #{searchWord} || '%'
-				</when>
-				<when test='searchType == "A2"'>
-					AND mem_add2 LIKE '%' || #{searchWord} || '%'
 				</when>
 				<otherwise>
 					AND mem_name LIKE '%' || #{searchWord} || '%'

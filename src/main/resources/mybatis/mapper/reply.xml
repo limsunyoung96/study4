@@ -31,4 +31,17 @@
 		  WHERE re_category = #{reCategory}
 			 AND re_parent_no = #{reParentNo}
 	</select>
+	
+	<insert id="insertReply" parameterType="com.study.reply.vo.ReplyVO">
+		INSERT INTO reply (
+	      re_no    , re_category    , re_parent_no
+	    , re_mem_id    , re_content    , re_ip
+	) VALUES (   
+	      seq_reply.nextval, #{reCategory}    , #{reParentNo}
+	    , #{reMemId}       , #{reContent}     , #{reIp}
+	)
+	</insert>
+	
+	
+	
 </mapper>

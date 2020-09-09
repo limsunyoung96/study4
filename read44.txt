@@ -1,0 +1,51 @@
+read44.txt
+
+--------------------------------------
+@MVC 어노테이션 기반 컨트롤러 
+ * @Controller
+ * @RequestMapping 
+ * @ModelAttribute 
+ * @RequestParam
+ - @SessionAttributes
+
+ - @GetMapping  = @RequestMapping(method = RequestMethod.GET)
+ - @PostMapping = @RequestMapping(method = RequestMethod.POST)
+ 
+
+ - RESTful 기반일 때 많이 사용 
+ * @RestController : REST 기반의 컨트롤러 지정 
+                    자동으로 모든 요청의 메서드는 반환은  @ResponseBody 붙은것과 동일
+                       
+ * @ResponseBody : 리턴객체를 그대로 응답의 본체로 내보내기  
+ * @PathVariable : 요청경로의 정보를 그대로 변수에 할당
+                   @RequestMapping(value = "/board/{no}/view", "/board/{no}/edit" 
+                 @PathVariable("no") int bo_no                    
+                    
+ - @RequestBody  : 요청정보자체를 그대로 받아들이기  
+ 
+
+
+@SessionAttributes 언제 사용하나요 ???
+입력하는 정보가 많아서 , 화면을 분할 
+ - step1 : 가입동의확안, 개인정보처리 동의
+ - step2 : 필수정보 입력 
+ - step3 : 필수, 선택 정보 입력 
+ - step4 : 가입처리  
+ ? 단계를 거치지않고 오면
+ ? 각 단계별로 입력한 정보의 저장은 어떻게
+   - 각 이전단계의 정보를 hidden 으로 숨겨서 마지막 단계까지 끌고 이동
+   - DB 에 임시저장소를 생성해서 각 단계별 저장을 하고
+     마지막 단계에서 취합해서 처리  
+ * 해당 객체를 사용하려고 할 때 세션에 존재해야 합니다.
+ * 최종단계에서는 세션을 정리(SessionStatus.setComplete())
+
+css/main.css 생성 
+
+body {
+  min-height: 2000px;
+  padding-top: 70px;
+}
+
+inc/common_header.jsp 에 main.css 추가  
+
+<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">

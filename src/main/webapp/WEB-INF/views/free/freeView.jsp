@@ -237,9 +237,9 @@
 					// 모달창 $('#모달아이디').modal('hide')
 					
 					$text = $('form[name=frm_reply_edit] textarea[name=reContent]').val();
-					$btn = $(this);
+/* 					$btn = $(this);
 					$div = $('#id_reply_list_area')
-					rNo = parseInt($('form[name=frm_reply_edit] input[name=reNo]').val());
+ */					rNo = $('form[name=frm_reply_edit] input[name=reNo]').val();
 					params = "reNo=" + rNo +"&reContent="+$text; //$div.data('re-no');
 					$.ajax({ 
 						  type :"POST"

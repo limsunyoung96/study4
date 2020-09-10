@@ -55,7 +55,18 @@ public class ReplyServiceImpl implements IReplyService {
 
 	@Override
 	public void removeReply(ReplyVO reply) throws BizNotFoundException, BizAccessFailException {
-		// TODO Auto-generated method stub
+		try (SqlSession sqlSession = factory.openSession()) {
+			IReplyDao replyDao = sqlSession.getMapper(IReplyDao.class);
+			ReplyVO vo = replyDao.getReply(reply.getReNo());
+			if(vo == null) {
+				throw new BizNotFoundException("글번호[" + reply.getReNo() + "]을 조회하지 못했습니다." );
+			}
+			if(!vo.getReMemId().equals(reply.getReMemId())) {
+				throw new BizAccessFailException("해당 글의 작성자가 아닙니다." );
+			}
+			replyDao.deleteReply(reply);
+			sqlSession.commit();
+		}
 		
 	}
 

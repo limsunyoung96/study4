@@ -22,7 +22,6 @@ read44.txt
                  @PathVariable("no") int bo_no                    
                     
  - @RequestBody  : 요청정보자체를 그대로 받아들이기  
- 
 
 
 @SessionAttributes 언제 사용하나요 ???
@@ -49,3 +48,28 @@ body {
 inc/common_header.jsp 에 main.css 추가  
 
 <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet">
+
+
+ -----------------------
+ jQuery : append, each 함수
+ 			text(),
+ 			val() : 폼의 input의 값 
+ 			html()
+ 			data()
+ 			show(), hide(), toggle()
+ 			closest(), find()
+ 			부트스트랩의 모달 
+  -----------------------
+ 	댓글 목록 : - curPage 1 증가 
+ 		 		- 10건이 안되면 -> 더보기 버튼 숨김
+ 	등록: 성공 - 현재 목록 갱신
+ 			   - 목록 영역을 지우고 다시 1 페이지 정보 가져오기
+ 			   - 또는 스크립트 입력한 내용을 댓글 생성(스크립트)
+ 	
+ 	수정: 수정화면 생성: 모달창 사용
+ 	 	  
+ 	 	  저장 성공 : 과제
+ 	
+ 	삭제: 성공 - 해당 댓글 화면 제거
+ 	
+ 	

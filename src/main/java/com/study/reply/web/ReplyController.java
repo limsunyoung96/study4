@@ -71,4 +71,25 @@ public class ReplyController {
 			return map;
 		}
 	}
+	
+	@RequestMapping(value = "/reply/replyDelete")
+	public Map<String, Object> replyDelete(ReplyVO reply, HttpSession session) throws Exception {
+		UserVO user = (UserVO) session.getAttribute("USER_INFO");
+		reply.setReMemId(user.getUserId());
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			replyService.removeReply(reply);
+			map.put("result", true);
+			map.put("msg", "삭제 되었습니다.");
+			return map;
+		} catch (BizNotFoundException e) {
+			map.put("result", false);
+			map.put("msg", "글이 존재하지 않습니다.");
+			return map;
+		} catch (BizAccessFailException e) {
+			map.put("result", false);
+			map.put("msg", "접근에 실패했습니다.");
+			return map;
+		}
+	}
 }

@@ -82,12 +82,13 @@
 	<!-- container -->
 
 	<div class="container">
-	
-	
+
+
 		<!-- // START : 댓글 등록 영역  -->
 		<div class="panel panel-default">
 			<div class="panel-body form-horizontal">
-				<form name="frm_reply" action="<c:url value='/reply/replyRegist' />" method="post" onclick="return false;">
+				<form name="frm_reply" action="<c:url value='/reply/replyRegist' />"
+					method="post" onclick="return false;">
 					<input type="hidden" name="reParentNo" value="${boardVo.boNo}">
 					<input type="hidden" name="reCategory" value="FREE">
 					<div class="form-group">
@@ -96,71 +97,63 @@
 							<textarea rows="3" name="reContent" class="form-control"></textarea>
 						</div>
 						<div class="col-sm-2">
-							<button id="btn_reply_regist" type="button" class="btn btn-sm btn-info">등록</button>
+							<button id="btn_reply_regist" type="button"
+								class="btn btn-sm btn-info">등록</button>
 						</div>
 					</div>
 				</form>
 			</div>
-		</div>		<!-- // END : 댓글 등록 영역  -->
-		
-		
-		<!-- // START : 댓글 목록 영역  -->
-		<div id="id_reply_list_area">
-			<div class="row">
-				<div class="col-sm-2 text-right">홍길동</div>
-				<div class="col-sm-6">
-					<pre>내용</pre>
-				</div>
-				<div class="col-sm-2">12/30 23:45</div>
-				<div class="col-sm-2">
-					<button name="btn_reply_edit" type="button" class=" btn btn-sm btn-info">수정</button>
-					<button name="btn_reply_delete" type="button" class="btn btn-sm btn-danger">삭제</button>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-2 text-right">밀키스</div>
-				<div class="col-sm-6">
-					<pre> 싸랑해요 밀키스!~~~</pre>
-				</div>
-				<div class="col-sm-2">11/25 12:45</div>
-				<div class="col-sm-2"></div>
-			</div>
 		</div>
+		<!-- // END : 댓글 등록 영역  -->
+
+
+		<!-- // START : 댓글 목록 영역  -->
+		<div id="id_reply_list_area"></div>
 
 		<div class="row text-center" id="id_reply_list_more">
 			<button id="btn_reply_list_more">
 				<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 				더보기
 			</button>
-		</div>	<!-- // END : 댓글 목록 영역  -->
+		</div>
+		<!-- // END : 댓글 목록 영역  -->
 
-	</div>	<!-- END : 더보기 버튼 영역-->
-	
-	
-	<!-- START : 댓글 수정용 Modal-->
-	<div class="modal fade" id="id_reply_edit_modal" role="dialog">
-		<div class="modal-dialog">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<form name="frm_reply_edit" action="<c:url value='/reply/replyModify' />" method="post" onclick="return false;">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">×</button>
-						<h4 class="modal-title">댓글수정</h4>
-					</div>
-					<div class="modal-body">
-						<input type="hidden" name="reNo" value="">
-						<textarea rows="3" name="reContent" class="form-control"></textarea>
-					</div>
-					<div class="modal-footer">
-						<button id="btn_reply_modify" type="button" class="btn btn-sm btn-info">저장</button>
-						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">닫기</button>
-					</div>
-				</form>
+		<!-- START : 댓글 수정용 Modal-->
+		<div class="modal fade" id="id_reply_edit_modal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form name="frm_reply_edit"
+						action="<c:url value='/reply/replyModify' />" method="post"
+						onclick="return false;">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">×</button>
+							<h4 class="modal-title">댓글수정</h4>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" name="reNo" value="">
+							<textarea rows="3" name="reContent" class="form-control"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button id="btn_reply_modify" type="button"
+								class="btn btn-sm btn-info">저장</button>
+							<button type="button" class="btn btn-default btn-sm"
+								data-dismiss="modal">닫기</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>	<!-- END : 댓글 수정용 Modal-->
-	</div>	<!-- END : 댓글 관련 영역-->
-	
+		<!-- END : 댓글 수정용 Modal-->
+
+	</div>
+	<!-- END : 더보기 버튼 영역-->
+
+
+
+	</div>
+	<!-- END : 댓글 관련 영역-->
+
 	<!-- START : 댓글 처리 스크립트-->
 	<script type="text/javascript">
 	// 상단에 전역변수 - 공통함수 - 이벤트함수 - 초기화처리
@@ -181,7 +174,6 @@
 				, data : replyParam											// 서버에 전송할 파라미터 정보
 				, success : function(data) {
 					console.log('data', data);
-					
 					if(data.result){
 						$reply_list_area = $('#id_reply_list_area')
 						$.each(data.data, function(i, el){
@@ -192,12 +184,19 @@
 							str += '      <div class="col-sm-6"><pre>'+ el.reContent +'</pre></div>';
 							str += '      <div class="col-sm-2" >'+ el.reRegDate +'</div>';
 							str += '      <div class="col-sm-2">';
-							str += '          <button name="btn_reply_edit" type="button" class=" btn btn-sm btn-info" >수정</button>';
-							str += '          <button name="btn_reply_delete" type="button" class="btn btn-sm btn-danger" >삭제</button>';
+							if(el.reMemId=='${sessionScope.USER_INFO.userId}'){
+								str += '          <button name="btn_reply_edit" type="button" class=" btn btn-sm btn-info" >수정</button>';
+								str += '          <button name="btn_reply_delete" type="button" class="btn btn-sm btn-danger" >삭제</button>';
+							}
 							str += '      </div>';
 							str += '  </div>';
 							$reply_list_area.append(str);
-						})
+						});
+						replyParam.curPage +=1;
+						// 더보기 버튼
+						if(data.count < replyParam.rowSizePerPage){
+							$('#btn_reply_list_more').hide();
+						}
 					}
 				}  																// 요청에 성공한 경우 호출되는 함수 (data, status, xhr )
 				, error : function(req, st, err) {
@@ -214,17 +213,96 @@
 			function() {
 				// 수정버튼 클릭
 				$('#id_reply_list_area').on('click','button[name=btn_reply_edit]', function(e) {
+					// 모달창 띄우기, 현재 클릭한 버튼의 영역에서 reNo, reContext를
+					//this : javascript 객체 -> jQuery 객체 $(this)
+					$btn = $(this);
+					$div = $btn.closest('div.row');
+					
+					// 모달창 내의 폼에 복사
+					// var f = document.forms.frm_reply_edit;
+					// f.reNo.value = $div.data('re-no');
+					$('form[name=frm_reply_edit] input[name=reNo]').val($div.data('re-no'));
+					$('form[name=frm_reply_edit] textarea[name=reContent]').val($div.find('div pre').text());
+					$('#id_reply_edit_modal').modal();
 					
 				}); // btn_reply_edit.click
 						
 				// 모달창의 (수정)저장버튼 btn_reply_modify 클릭
 				$("#btn_reply_modify").click(function(e) {
+					// 성공하면
+					// 예) 25 댓글 수정 성공
+					// 모달 폼에 있는 textarea의 값을
+					// div.class[data-re-no=35] div pre 그 이하의 교체
+					// 모달 폼의 reNo, reContent는 '' 설정
+					// 모달창 $('#모달아이디').modal('hide')
 					
+					$text = $('form[name=frm_reply_edit] textarea[name=reContent]').val();
+					$btn = $(this);
+					$div = $('#id_reply_list_area')
+					rNo = parseInt($('form[name=frm_reply_edit] input[name=reNo]').val());
+					params = "reNo=" + rNo +"&reContent="+$text; //$div.data('re-no');
+					$.ajax({ 
+						  type :"POST"
+						, url : '<c:url value="/reply/replyModify" />' 		
+						, dataType : 'json' 
+						, data : params	
+						, success : function(data) {
+								console.log('data', data);
+								if(data.result){
+									// 수정
+									$('div.row[data-re-no='+ rNo +']').find('div pre').text($text);
+									
+									$('form[name=frm_reply_edit] input[name=reNo]').val('');
+									$('form[name=frm_reply_edit] textarea[name=reContent]').val('');
+									
+									$('#id_reply_edit_modal').modal('hide');
+								}else{
+									alert(data.msg);
+								}
+						  }  
+						, error : function(req, st, err) {
+								console.log('----------------------------');
+								console.log('request', req);
+								console.log('status', st);
+								console.log('errors', err);
+								console.log('----------------------------');
+							}	 	
+					}); // ajax			
 				}); // btn_reply_modify.click
 				
 				// 삭제버튼 클릭
 				$('#id_reply_list_area').on('click',
 						'button[name=btn_reply_delete]', function(e) {
+					$btn = $(this);
+					$div = $btn.closest('div.row');
+					
+					e.preventDefault();
+					res = confirm("글을 삭제하시겠습니까?");
+					if(res){
+						params = "reNo=" + $div.data('re-no');
+						$.ajax({ 
+							  type :"POST"
+							, url : '<c:url value="/reply/replyDelete" />' 		
+							, dataType : 'json' 
+							, data : params	
+							, success : function(data) {
+									console.log('data', data);
+									if(data.result){
+										// 삭제
+										$div.remove();
+									}else{
+										alert(data.msg);
+									}
+							  }  
+							, error : function(req, st, err) {
+									console.log('----------------------------');
+									console.log('request', req);
+									console.log('status', st);
+									console.log('errors', err);
+									console.log('----------------------------');
+								}	 	
+						}); // ajax			
+					}  // confirm		
 					
 				}); // btn_reply_delete.click
 				
@@ -247,7 +325,15 @@
 							, success : function(data) {
 									console.log('data', data);
 									if(data.result){
-										alert(data.msg);
+										replyParam.curPage = 1;
+										document.forms.frm_reply.reContent.value = '';
+										//$('form[name=frm_reply] textarea[name=reContent]').val('');
+										
+										// 현재 목록 영역 remove()
+										$('#id_reply_list_area').html('');
+										// 목록조회 함수 호출
+										fn_reply_list();
+										//alert(data.msg);
 									}else{
 										alert(data.msg);
 									}

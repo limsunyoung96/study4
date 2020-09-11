@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Service;
 
 import com.study.common.util.MybatisSqlSessionFactory;
 import com.study.exception.BizAccessFailException;
@@ -13,6 +14,7 @@ import com.study.reply.dao.IReplyDao;
 import com.study.reply.vo.ReplySearchVO;
 import com.study.reply.vo.ReplyVO;
 
+@Service
 public class ReplyServiceImpl implements IReplyService {
 	
 	SqlSessionFactory factory = MybatisSqlSessionFactory.getSqlSessionFactory();

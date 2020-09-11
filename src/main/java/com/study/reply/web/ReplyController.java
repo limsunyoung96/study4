@@ -7,16 +7,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.study.exception.BizAccessFailException;
 import com.study.exception.BizNotFoundException;
 import com.study.login.vo.UserVO;
 import com.study.reply.service.IReplyService;
-import com.study.reply.service.ReplyServiceImpl;
 import com.study.reply.vo.ReplySearchVO;
 import com.study.reply.vo.ReplyVO;
 
@@ -24,7 +23,8 @@ import com.study.reply.vo.ReplyVO;
 @RestController
 public class ReplyController {
 
-	private IReplyService replyService = new ReplyServiceImpl();
+	@Autowired
+	private IReplyService replyService; // = new ReplyServiceImpl();
 
 	@RequestMapping(value = "/reply/replyList", produces = "application/json;charset=UTF-8")
 	// @ResponseBody // @Controller로 되어있으면 붙여야하고 ResponseController 하면 안붙여도 된다

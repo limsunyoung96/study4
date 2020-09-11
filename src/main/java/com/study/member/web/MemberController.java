@@ -2,11 +2,13 @@ package com.study.member.web;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.study.code.service.CommonCodeServiceImpl;
 import com.study.code.service.ICommonCodeService;
 import com.study.code.vo.CodeVO;
 import com.study.common.valid.ModifyType;
@@ -27,15 +28,17 @@ import com.study.exception.BizDuplicateKeyException;
 import com.study.exception.BizNotEffectedException;
 import com.study.exception.BizNotFoundException;
 import com.study.member.service.IMemberService;
-import com.study.member.service.MemberServiceImpl;
 import com.study.member.vo.MemberSearchVO;
 import com.study.member.vo.MemberVO;
 
 @Controller
 public class MemberController {
 
-	IMemberService memberService = new MemberServiceImpl();
-	ICommonCodeService codeService = new CommonCodeServiceImpl();
+	@Autowired
+	IMemberService memberService; // = new MemberServiceImpl();
+	
+	@Inject
+	ICommonCodeService codeService; // = new CommonCodeServiceImpl();
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	// modelAttribute를 통해 공통으로 사용되는 모델객체(일반적으로 공통코드 목록)

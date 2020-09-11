@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Service;
 
 import com.study.common.util.MybatisSqlSessionFactory;
 import com.study.exception.BizDuplicateKeyException;
@@ -13,6 +14,7 @@ import com.study.member.dao.IMemberDao;
 import com.study.member.vo.MemberSearchVO;
 import com.study.member.vo.MemberVO;
 
+@Service
 public class MemberServiceImpl implements IMemberService {
 	//private IMemberDao memberDao = new MemberDaoOracle();
 	SqlSessionFactory factory = MybatisSqlSessionFactory.getSqlSessionFactory();

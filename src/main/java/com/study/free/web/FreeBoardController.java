@@ -2,11 +2,13 @@ package com.study.free.web;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.groups.Default;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.study.code.service.CommonCodeServiceImpl;
 import com.study.code.service.ICommonCodeService;
 import com.study.code.vo.CodeVO;
 import com.study.common.valid.ModifyType;
@@ -26,7 +27,6 @@ import com.study.common.vo.ResultMessageVO;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
 import com.study.exception.DaoDuplicateKeyException;
-import com.study.free.service.FreeBoardServiceImpl;
 import com.study.free.service.IFreeBoardService;
 import com.study.free.vo.FreeBoardSearchVO;
 import com.study.free.vo.FreeBoardVO;
@@ -35,8 +35,12 @@ import com.study.free.vo.FreeBoardVO;
 // @RequestMapping("/free")
 public class FreeBoardController {
 
-	IFreeBoardService freeBoardService = new FreeBoardServiceImpl();
-	ICommonCodeService codeService = new CommonCodeServiceImpl();
+	@Autowired
+	IFreeBoardService freeBoardService; // = new FreeBoardServiceImpl();
+	
+	@Inject
+	ICommonCodeService codeService; // = new CommonCodeServiceImpl();
+	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	// @ModelAttribute 를 통해 공통으로 사용되는 모델객체 ( 일반적으로 공통코드 목록)

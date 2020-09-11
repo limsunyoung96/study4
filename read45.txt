@@ -1,0 +1,31 @@
+read45.txt
+
+--------------------------------------
+com.di.step1
+		BoardDaoOracle
+		BoardService -> BoardDaoOracle
+		TestBoardService
+		
+		-- Dao 변경 발생
+		BoardDaoMySql
+		BoardService -> BoardDaoMySql : 인터페이스 IBoardDao
+		// Dao의 변경 발생시
+		// 사용하는 서비스가 30개가 있다면, 30개 모두 변경 필요
+		
+com.di.step2
+		BoardDaoOracle, BoardDaoMySql
+		BoardService -> BoardDaoMySql: 인터페이스 IBoardDao
+		TestBoardService
+		
+com.di.step3
+		스프링 XML 기반 설정
+		BoardDaoOracle, BoardDaoMySql
+		BoardService -> BoardDaoMySql: 인터페이스 IBoardDao
+		TestBoardService
+		
+com.di.step4
+		스프링 최소 XML 기반 설정 + Annotation 설정
+		BoardDaoOracle, BoardDaoMySql
+		BoardService -> BoardDaoMySql: 인터페이스 IBoardDao
+		TestBoardService		
+ 	

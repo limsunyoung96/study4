@@ -234,13 +234,13 @@
 					// 모달 폼에 있는 textarea의 값을
 					// div.class[data-re-no=35] div pre 그 이하의 교체
 					// 모달 폼의 reNo, reContent는 '' 설정
-					// 모달창 $('#모달아이디').modal('hide')
+					// 모달창 $('#모달아이디').modal('hide')					
 					
-					$text = $('form[name=frm_reply_edit] textarea[name=reContent]').val();
+					txt = $('form[name=frm_reply_edit] textarea[name=reContent]').val();
 /* 					$btn = $(this);
 					$div = $('#id_reply_list_area')
  */					rNo = $('form[name=frm_reply_edit] input[name=reNo]').val();
-					params = "reNo=" + rNo +"&reContent="+$text; //$div.data('re-no');
+					params = "reNo=" + rNo +"&reContent=" + txt; //$div.data('re-no');
 					$.ajax({ 
 						  type :"POST"
 						, url : '<c:url value="/reply/replyModify" />' 		
@@ -250,7 +250,7 @@
 								console.log('data', data);
 								if(data.result){
 									// 수정
-									$('div.row[data-re-no='+ rNo +']').find('div pre').text($text);
+									$('div.row[data-re-no='+ rNo +']').find('div pre').text(txt);
 									
 									$('form[name=frm_reply_edit] input[name=reNo]').val('');
 									$('form[name=frm_reply_edit] textarea[name=reContent]').val('');

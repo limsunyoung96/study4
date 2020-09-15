@@ -1,7 +1,7 @@
 package com.study.login.web;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -18,13 +18,14 @@ import com.study.common.vo.ResultMessageVO;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
 import com.study.login.service.ILoginService;
-import com.study.login.service.LoginServiceImpl;
 import com.study.login.vo.UserVO;
 
 @Controller
 public class LoginController{
 
-	private ILoginService loginService = new LoginServiceImpl();
+	@Inject
+	private ILoginService loginService;// = new LoginServiceImpl();
+	
 	// Common logging: private final Log logger = LogFactory.getLog(getClass());
 	// SLF4J 조금 더 향상된 Log 퍼시드 객체
 	private final Logger logger = LoggerFactory.getLogger(getClass());

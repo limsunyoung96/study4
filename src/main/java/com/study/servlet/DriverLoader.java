@@ -13,6 +13,7 @@ import org.apache.commons.dbcp2.PoolingDriver;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
+@SuppressWarnings("serial")
 public class DriverLoader extends HttpServlet {
 
 	@Override
@@ -41,6 +42,7 @@ public class DriverLoader extends HttpServlet {
 			// 커넥션이 유요한지 확인하기 위한 query
 			poolableConnFactory.setValidationQuery("select 1 from dual");
 
+			@SuppressWarnings("rawtypes")
 			GenericObjectPoolConfig poolConofig = new GenericObjectPoolConfig();
 			// 커넥션 툴의 설정 정보, 유휴 커넥션 검사주기, 검사여부, 커넥션 최소/최대 갯수
 			poolConofig.setTimeBetweenEvictionRunsMillis(1000L * 60L * 10L); // 10분
@@ -48,6 +50,7 @@ public class DriverLoader extends HttpServlet {
 			poolConofig.setMinIdle(4);
 			poolConofig.setMaxTotal(4); // default 8, 수업때문에 4개로 줄임
 
+			@SuppressWarnings("unchecked")
 			GenericObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(poolableConnFactory,
 					poolConofig);
 			poolableConnFactory.setPool(connectionPool);

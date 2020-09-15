@@ -3,9 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	 
@@ -35,6 +39,48 @@
 	 -->	
 	<context:component-scan base-package="com.study"  />
 	
+	<interceptors>
+		<!-- 모든 요청에 적용되는 인터셉터 -->
+		<beans:bean class="com.study.common.interceptor.LoggingInterceptor"/>
+		
+		<interceptor>
+			<mapping path="/mypage/**"/>
+			<mapping path="/member/**"/>
+			<mapping path="/reply/**"/>
+			<exclude-mapping path="/reply/replyList"/>
+			<beans:bean class="com.study.common.interceptor.LoginCheckInterceptor"/>
+		</interceptor>
+		
+		
+	</interceptors>
+
+	<util:properties id="app" location="classpath:appconfig.properties"/> 
+	
+	<beans:bean id="dataSource" 
+				   class="org.apache.commons.dbcp2.BasicDataSource"
+				   destroy-method="close">
+		<beans:property name="driverClassName" value="#{app['jdbc.driverClassName']}"/>
+		<beans:property name="url" value="#{app['jdbc.url']}"/>
+		<beans:property name="username" value="#{app['jdbc.username']}"/>
+		<beans:property name="password" value="#{app['jdbc.password']}"/>
+		<beans:property name="defaultAutoCommit" value="#{app['jdbc.defaultAutoCommit']}"/>
+		<beans:property name="validationQuery" value="#{app['jdbc.validationQuery']}"/>
+		<beans:property name="maxTotal" value="#{app['jdbc.maxTotal']}"/>
+		<beans:property name="minIdle" value="#{app['jdbc.minIdle']}"/>
+		<beans:property name="testWhileIdle" value="true"/>
+		<beans:property name="timeBetweenEvictionRunsMillis" value="600000"/> 
+	</beans:bean>
+
+
+	<beans:bean id="sqlSessionFactory"	class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource" />
+		<beans:property name="configLocation" value="/WEB-INF/classes/mybatis/mybatis-config.xml"/>
+		<beans:property name="mapperLocations" value="classpath:/mybatis/mapper/*.xml"/>
+	</beans:bean>
+	
+	
+	<mybatis-spring:scan base-package="com.study"
+							  annotation="org.apache.ibatis.annotations.Mapper"	/>
 	
 	
 </beans:beans>

@@ -8,6 +8,7 @@ import com.study.exception.BizNotFoundException;
 import com.study.member.vo.MemberSearchVO;
 import com.study.member.vo.MemberVO;
 
+
 public interface IMemberService {
 	
 	public void registMember(MemberVO member) throws BizDuplicateKeyException ;

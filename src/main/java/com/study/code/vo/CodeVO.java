@@ -7,10 +7,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 @SuppressWarnings("serial")
 public class CodeVO implements Serializable {
-	private String commCd; /* 코드 */
-	private String commNm; /* 코드명 */
-	private String commParent; /* 부모 코드 */
-	private int commOrd; /* 순번 */
+	private String commCd;		 	/* 코드 */
+	private String commNm; 		/* 코드명 */
+	private String commParent; 	/* 부모 코드 */
+	private int commOrd; 			/* 순번 */
 
 	@Override
 	public String toString() {

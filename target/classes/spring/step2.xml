@@ -17,15 +17,18 @@
 	
 	<bean id="boardDao2" 
 			class="com.di.step2.BoardDaoMySql" 
-			p:url="Maria의 아빠"/>
+			p:url="Maria의 아빠"
+			scope="prototype"/>
 	
 	<bean id="boardService"
 			class="com.di.step2.BoardService"
 			init-method="myInit" 
 			destroy-method="myDestroy"
+			p:boardDao-ref="boardDao2"/> 
+	
+	<bean id="boardService2"
+			class="com.di.step2.BoardService"
 			p:boardDao-ref="boardDao2"/>
-	
-	
 	
 	
 	<!-- // BoardDaoMySql 빈으로 설정 -->

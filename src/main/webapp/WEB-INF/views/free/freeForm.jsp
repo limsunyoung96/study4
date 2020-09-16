@@ -7,6 +7,28 @@
 <head>
 <%@include file="/WEB-INF/inc/header.jsp"%>
 <title>글 등록</title>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// 파일 추가버튼 클릭 이벤트
+		$('#id_btn_new_file').click(function(){
+			$('.file_area').append('<div class="form-inline">'
+				+ '<input type="file" name="boFiles" class="form-control">'
+				+ ' <button type="button" class="btn_delete btn btn-sm">삭제</button>'
+				+ '</div>');
+		}); // #id_btn_new_file.click
+		
+		//파일 삭제버튼 클릭 이벤트 (동적으로 추가된 객체의 이벤트 사용시 on...)
+		$('.file_area').on('click', '.btn_delete', function() {
+			$(this).closest('div').remove();
+		}); // .btn_delete_click
+		
+		$('.btn_delete').click(function(){
+			$(this).closest('div').remove();
+		});
+	}); // document.ready
+</script>
+
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
@@ -63,11 +85,24 @@
 		<tr>
 			<th>IP</th>
 			<td>${pageContext.request.remoteAddr}</td>
-		</tr>			
+		</tr>
+		<tr>
+			<th>첨부파일
+				<button type="button" id="id_btn_new_file">추가</button>
+			</th>
+			<td class="file_area">
+				<div class="form-inline">
+					<input type="file" name="boFiles" class="form-control">
+					<button type="button" class="btn_delete btn btn-sm">
+						삭제</button>
+				</div>
+			</td>
+		</tr>
 		<tr>
 			<th>내용</th>
-			<td><%-- <textarea rows="3" name="boContent" class="form-control"></textarea> --%>
-			<form:textarea path="boContent" cssClass="form-control"/>
+			<td>
+				<%-- <textarea rows="3" name="boContent" class="form-control"></textarea> --%>
+				<form:textarea path="boContent" cssClass="form-control" />
 			</td>
 		</tr>
 		<tr>

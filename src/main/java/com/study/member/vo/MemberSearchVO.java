@@ -13,10 +13,10 @@ public class MemberSearchVO  extends PagingVO{
 	private String searchJob;
 	private String searchLike;
 	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}  
+//	@Override
+//	public String toString() {
+//		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+//	}  
 	
 	public String getSearchType() {
 		return searchType;

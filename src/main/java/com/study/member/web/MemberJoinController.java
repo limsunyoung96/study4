@@ -3,7 +3,6 @@ package com.study.member.web;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.net.ssl.SSLEngineResult.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +22,10 @@ import com.study.code.vo.CodeVO;
 import com.study.common.valid.JoinStep1;
 import com.study.common.valid.JoinStep2;
 import com.study.common.valid.JoinStep3;
-import com.study.common.valid.RegistType;
 import com.study.common.vo.ResultMessageVO;
-import com.study.exception.BizDuplicateKeyException;
-import com.study.member.dao.IMemberDao;
+import com.study.exception.BizNotFoundException;
 import com.study.member.service.IMemberService;
 import com.study.member.vo.MemberJoinVO;
-import com.study.member.vo.MemberVO;
 
 @Controller
 // 여기서 세션을 사용할 것이기 때문에 ModelAttribute의 memberJoin 이름과 SessionAttributes("memberJoin")가 같아야함
@@ -38,7 +34,6 @@ public class MemberJoinController {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	
 	@Autowired
 	IMemberService memberService; // = new MemberServiceImpl();
 
@@ -95,31 +90,33 @@ public class MemberJoinController {
 	}
 
 	@PostMapping(path = "/join/step3")
-	public String step3(
-			@ModelAttribute("memberJoin") @Validated(JoinStep2.class) MemberJoinVO joinVO,
+	public String step3(@ModelAttribute("memberJoin") @Validated(JoinStep2.class) MemberJoinVO joinVO,
 			BindingResult errors) throws Exception {
 		logger.debug("step3 = {}", joinVO);
 		if (errors.hasErrors()) {
 			logger.info("step3 검증실패 {}", errors);
 			return "join/step2";
 		}
-		
+
 		// 해당 아이디가 사용중이라면 errors에
-		if(memberService.getMember(joinVO.getMemId())!=null) {
-			errors.rejectValue("memId", "errors.required", "해당 아이디는 사용중입니다.");
-			return "join/step2";
-		}
-		 
+		try {
+			if (memberService.getMember(joinVO.getMemId()) != null) {
+				errors.rejectValue("memId", "errors.required", "해당 아이디는 사용중입니다.");
+				return "join/step2";
+			}
+		} catch (BizNotFoundException e) {
+			return "join/step3";
+		} 
 
 		return "join/step3";
 	}
 
 	@PostMapping(path = "/join/regist")
-	public String regist(@ModelAttribute("memberJoin") @Validated(JoinStep3.class) MemberJoinVO joinVO,
+	public String regist(@ModelAttribute("memberJoin") @Validated({JoinStep1.class,JoinStep2.class,JoinStep3.class}) MemberJoinVO joinVO,
 			SessionStatus status, ModelMap model, BindingResult errors) throws Exception {
 		logger.debug("regist = {}", joinVO);
 		if (errors.hasErrors()) {
-			logger.info("regist 검증실패 {}", errors);
+			logger.info("regist 검증실패 {}", errors); 
 			return "join/step3";
 		}
 

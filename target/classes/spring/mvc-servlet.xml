@@ -19,15 +19,16 @@
 	
 	<!-- 요청에 대한 매핑이 존재하지 않을때 WAS에게 요청을 넘겨요... -->
 	<default-servlet-handler />
-	
 
 	<!-- 정적자원(이미지, css, js, ..) 의 GET 요청에 대한 매핑   -->
-	<!-- 
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/js/**" location="/js/" />
-  -->
+
+	<!-- 매핑에 대해서 바로 뷰를 설정하고자 하는 경우(컨트롤러가 필요없는 경우) -->
+	<!-- view-name 이 없다면 path 정보가 뷰로 결정된다. -->
+	<view-controller path= "/upload/form" view-name="uploadForm" />
   
-  
+   
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -35,9 +36,11 @@
 	</beans:bean>
 
 	<!-- 자바파일에 설정된 어노테이션을 검색해서 빈으로 등록
-	     빈 : 스프링이 관리하는 객체 
-	 -->	
-	<context:component-scan base-package="com.study"  />
+	     빈 : 스프링이 관리하는 객체 	 
+	    context-main에 exclude 되어있는 것을 여기선 include 하기-->	
+	<context:component-scan base-package="com.study" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 	<interceptors>
 		<!-- 모든 요청에 적용되는 인터셉터 -->
@@ -50,41 +53,18 @@
 			<exclude-mapping path="/reply/replyList"/>
 			<beans:bean class="com.study.common.interceptor.LoginCheckInterceptor"/>
 		</interceptor>
-		
-		
 	</interceptors>
-
-	<util:properties id="app" location="classpath:appconfig.properties"/> 
 	
-	<beans:bean id="dataSource" 
-				   class="org.apache.commons.dbcp2.BasicDataSource"
-				   destroy-method="close">
-		<beans:property name="driverClassName" value="#{app['jdbc.driverClassName']}"/>
-		<beans:property name="url" value="#{app['jdbc.url']}"/>
-		<beans:property name="username" value="#{app['jdbc.username']}"/>
-		<beans:property name="password" value="#{app['jdbc.password']}"/>
-		<beans:property name="defaultAutoCommit" value="#{app['jdbc.defaultAutoCommit']}"/>
-		<beans:property name="validationQuery" value="#{app['jdbc.validationQuery']}"/>
-		<beans:property name="maxTotal" value="#{app['jdbc.maxTotal']}"/>
-		<beans:property name="minIdle" value="#{app['jdbc.minIdle']}"/>
-		<beans:property name="testWhileIdle" value="true"/>
-		<beans:property name="timeBetweenEvictionRunsMillis" value="600000"/> 
-	</beans:bean>
-
-
-	<beans:bean id="sqlSessionFactory"	class="org.mybatis.spring.SqlSessionFactoryBean">
-		<beans:property name="dataSource" ref="dataSource" />
-		<beans:property name="configLocation" value="/WEB-INF/classes/mybatis/mybatis-config.xml"/>
-		<beans:property name="mapperLocations" value="classpath:/mybatis/mapper/*.xml"/>
+	<beans:bean id="multipartResolver"
+				  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSizePerFile" value="#{app['file.upload.each.size']}"/>
+		<beans:property name="maxUploadSize"        value="#{app['file.upload.max.size']}"/>
+		<beans:property name="maxInMemorySize" 	   value="#{app['file.upload.memory.size']}"/>
 	</beans:bean>
 	
+
 	
-	<mybatis-spring:scan base-package="com.study"
-							  annotation="org.apache.ibatis.annotations.Mapper"	/>
+	
 	
 	
 </beans:beans>
-
-
-
-

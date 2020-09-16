@@ -27,7 +27,6 @@ public class MemberServiceImpl implements IMemberService {
 		if (vo != null) {
 			throw new BizDuplicateKeyException();
 		}
-		
 		memberDao.insertMember(member);
 	}
 
@@ -53,7 +52,6 @@ public class MemberServiceImpl implements IMemberService {
 		if (cnt < 1) {
 			throw new BizNotEffectedException("삭제 실패");
 		}
-
 	}
 
 	@Override

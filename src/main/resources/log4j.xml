@@ -14,6 +14,9 @@
 	<logger name="com.study">
 		<level value="debug" />
 	</logger>
+	<logger name="com.aop">
+		<level value="debug" />
+	</logger>
 	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">

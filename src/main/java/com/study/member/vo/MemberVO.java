@@ -68,9 +68,9 @@ public class MemberVO implements Serializable {
 	private String memJobNm; /* 회원 직업 */
 	private String memLikeNm;/* 회원 취미 */
 
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}
+//	public String toString() {
+//		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+//	}
 
 	public String getMemId() {
 		return memId;

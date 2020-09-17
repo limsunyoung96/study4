@@ -15,5 +15,4 @@ public interface IQuestionBoardService {
   public void registBoard(QuestionBoardVO board); //throws BizDuplicateKeyException;	
   public void modifyBoard(QuestionBoardVO board) throws BizNotFoundException, BizPasswordNotMatchedException, BizNotEffectedException;	
   public void removeBoard(QuestionBoardVO board) throws BizNotFoundException, BizPasswordNotMatchedException, BizNotEffectedException; 	
-  public void increaseHit(int boNo);   
 }

@@ -7,9 +7,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.groups.Default;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.study.common.valid.JoinStep2;
 import com.study.common.valid.JoinStep3;
 import com.study.common.valid.RegistType;

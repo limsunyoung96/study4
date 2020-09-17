@@ -40,24 +40,12 @@
 					<td><pre>${boardVo.boContent}</pre></td>
 				</tr>
 				<tr>
-					<th>등록자 IP</th>
-					<td>${boardVo.boIp}</td>
-				</tr>
-				<tr>
-					<th>조회수</th>
-					<td>${boardVo.boHit}</td>
-				</tr>
-				<tr>
 					<th>등록일자</th>
 					<td>${boardVo.boRegDate}</td>
 				</tr>
 				<tr>
 					<th>등록일자</th>
 					<td>${boardVo.boModDate}</td>
-				</tr>
-				<tr>
-					<th>삭제여부</th>
-					<td>${boardVo.boDelYn}</td>
 				</tr>
 				<tr>
 					<td colspan="2">

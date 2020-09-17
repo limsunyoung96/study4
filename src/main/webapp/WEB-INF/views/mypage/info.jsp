@@ -8,7 +8,7 @@
 <title>info.jsp</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/inc/top.jsp"%>
+<%@ include file="/WEB-INF/inc/top.jsp"%>
 	<div class="container">
 		<h3>회원 상세 정보</h3>
 		<table class="table table-striped ">

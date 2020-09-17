@@ -57,7 +57,6 @@
 		</tr>
 		<tr>
 			<th>분류</th>
-			<td>
 				<%-- <select name="boCategory" class="form-control input-sm" >
 					<option value="">-- 선택하세요--</option>		
 						<c:forEach items="${categorylist}" var="code">

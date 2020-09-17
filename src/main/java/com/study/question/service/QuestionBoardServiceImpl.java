@@ -41,7 +41,6 @@ public class QuestionBoardServiceImpl implements IQuestionBoardService {
 
 	@Override
 	public void registBoard(QuestionBoardVO board) {
-		System.out.println("이거 되닝");
 		questionBoardDao.insertBoard(board);
 
 	}
@@ -80,11 +79,6 @@ public class QuestionBoardServiceImpl implements IQuestionBoardService {
 			throw new BizNotEffectedException();
 		}
 //			BizPasswordNotMatchedException 이거 던지려면 !=대신 !( .equals)
-	}
-
-	@Override
-	public void increaseHit(int boNo) {
-		questionBoardDao.increaseHit(boNo);
 	}
 
 }

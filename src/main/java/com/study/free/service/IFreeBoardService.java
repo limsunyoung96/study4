@@ -10,6 +10,7 @@ import com.study.free.vo.FreeBoardVO;
 
 public interface IFreeBoardService {
 	
+
   public List<FreeBoardVO> getBoardList(FreeBoardSearchVO searchVO);
   public FreeBoardVO getBoard(int boNo) throws BizNotFoundException;	
   public void registBoard(FreeBoardVO board); //throws BizDuplicateKeyException;	

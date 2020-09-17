@@ -19,6 +19,7 @@
 	<form:form action="freeModify.wow" modelAttribute="boardVO">
 	<%-- <input type="hidden" name="boNo" value="${boardVO.boNo}"> --%>	
 	<form:hidden path="boNo"/>
+	<form:hidden path="boId"/>
 	
 	<table class="table table-striped table-bordered">
 		<colgroup>
@@ -57,13 +58,6 @@
 		</tr>
 		<tr>
 			<th>분류</th>
-			<td>
-				<%-- <select name="boCategory" class="form-control input-sm" >
-					<option value="">-- 선택하세요--</option>		
-						<c:forEach items="${categorylist}" var="code">
-							<option value="${code.commCd}" ${code.commCd eq boardVO.boCategory ? "selected='selected'": "" }>${code.commNm}</option>
-						</c:forEach>			
-				</select> --%>
 				<td>
 				<form:select path="boCategory" cssClass="form-control input-sm">
 					<option value="" >--- 선택하세요 ---</option>
@@ -78,14 +72,6 @@
 			<td><textarea rows="10" name="boContent" class="form-control input-sm">${boardVO.boContent}</textarea>
 			</td>
 		</tr>
-    <tr>
-      <th>IP</th>
-      <td>${boardVO.boIp}</td>
-    </tr>
-    <tr>
-      <th>조회수</th>
-      <td>${boardVO.boHit}</td>
-    </tr>
     <tr>
       <th>등록일자</th>
       <td>${boardVO.boRegDate}</td>

@@ -6,20 +6,20 @@
 <html lang="ko">
 <head>
 <%@include file="/WEB-INF/inc/header.jsp"%>
-<title>freeList.jsp</title>
+<title>questionList.jsp</title>
 </head>
 <body>
 	<%@include file="/WEB-INF/inc/top.jsp"%>
 	<div class="container">
 		<div class="page-header">
-			<h3>자유게시판 - <small>목록조회</small></h3>
+			<h3>1:1문의 게시판 - <small>목록조회</small></h3>
 			<%-- ${searchVO} --%>
 		</div>
 
 		<!-- START : 검색 폼  -->
 		<div class="collapse.in panel panel-default" id="id_search_area">
 			<div class="panel-body">
-				<form name="frm_search" action="freeList.wow" method="post"
+				<form name="frm_search" action="questionList.wow" method="post"
 					class="form-horizontal">
 					<input type="hidden" name="curPage" value="${searchVO.curPage}">
 					<input type="hidden" name="rowSizePerPage"
@@ -93,7 +93,7 @@
 				</a>
 			</div>
 			<div class="col-sm-1 text-right">
-				<a href="freeForm.wow" class="btn btn-primary btn-sm"> <span
+				<a href="questionForm.wow" class="btn btn-primary btn-sm"> <span
 					class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 					&nbsp;새글쓰기
 				</a>
@@ -126,7 +126,7 @@
 					<tr class="text-center">
 						<td>${bo.boNo}</td>
 						<td>${bo.boCategoryNm}</td>
-						<td class="text-left"><a href="freeView.wow?boNo=${bo.boNo}">
+						<td class="text-left"><a href="questionView.wow?boNo=${bo.boNo}">
 								${bo.boTitle} </a></td>
 						<td>${bo.boWriter}</td>
 						<td>${bo.boModDate == null ? bo.boRegDate:bo.boModDate}</td>
@@ -138,7 +138,7 @@
 
 		<!-- START : 페이지네이션  -->
 		<nav class="text-center">
-			<mytage:paging pagingVO="${searchVO}" linkPage="freeList.wow" />
+			<mytage:paging pagingVO="${searchVO}" linkPage="questionList.wow" />
 		</nav>
 		<!-- END : 페이지네이션  -->
 

@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.study.attach.dao.IAttachDao;
+import com.study.attach.vo.AttachVO;
 import com.study.exception.BizNotEffectedException;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
@@ -15,9 +18,12 @@ import com.study.free.vo.FreeBoardVO;
 
 @Service
 public class FreeBoardServiceImpl implements IFreeBoardService {
-	
+
 	@Inject
 	private IFreeBoardDao freeBoardDao;
+
+	@Autowired
+	private IAttachDao attachDao;
 
 	@Override
 	public List<FreeBoardVO> getBoardList(FreeBoardSearchVO searchVO) {
@@ -35,15 +41,28 @@ public class FreeBoardServiceImpl implements IFreeBoardService {
 		if (vo == null) {
 			throw new BizNotFoundException("[" + boNo + "] 조회 실패");
 		}
-//			System.out.println(vo);
+		
+//		// 해당 게시물의 첨부파일 가져오기
+//		AttachVO attach = new AttachVO();
+//		attach.setAtchCategory("FREE");
+//		attach.setAtchParentNo(boNo);
+//		
+//		vo.setAttaches(attachDao.getAttachByParentNoList(attach));
+
 		return vo;
 	}
 
 	@Override
 	public void registBoard(FreeBoardVO board) {
-		System.out.println("이거 되닝");
-		freeBoardDao.insertBoard(board);
-
+		freeBoardDao.insertBoard(board); // 여기 구문에서 freeboard.xml의 insert 내의 selectKey 구문에서 boNo에 값이 담긴다
+		
+		List<AttachVO> attaches = board.getAttaches();
+		if (attaches != null) {
+			for (AttachVO vo : attaches) {
+				vo.setAtchParentNo(board.getBoNo());
+				attachDao.insertAttach(vo);
+			}
+		}
 	}
 
 	@Override

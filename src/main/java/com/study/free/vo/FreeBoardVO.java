@@ -1,6 +1,7 @@
 package com.study.free.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.study.attach.vo.AttachVO;
 import com.study.common.valid.ModifyType;
 
 @SuppressWarnings("serial")
@@ -41,8 +43,12 @@ public class FreeBoardVO implements Serializable {
 	private String boModDate; /* 수정 일자 */
 	private String boDelYn; /* 삭제 여부 */
 
-	// 추가된 필드,
+	// 추가된 필드
 	private String boCategoryNm; /* 글 분류 명 */
+
+	private List<AttachVO> attaches; /* 첨부파일 리스트 */
+
+	private int[] delAtchNos;/* 삭제할 대상 첨부파일 번호 */
 
 	@Override
 	public String toString() {
@@ -143,5 +149,21 @@ public class FreeBoardVO implements Serializable {
 
 	public void setBoDelYn(String boDelYn) {
 		this.boDelYn = boDelYn;
+	}
+
+	public List<AttachVO> getAttaches() {
+		return attaches;
+	}
+
+	public void setAttaches(List<AttachVO> attaches) {
+		this.attaches = attaches;
+	}
+
+	public int[] getDelAtchNos() {
+		return delAtchNos;
+	}
+
+	public void setDelAtchNos(int[] delAtchNos) {
+		this.delAtchNos = delAtchNos;
 	}
 }

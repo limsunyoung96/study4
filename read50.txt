@@ -1,0 +1,19 @@
+read50.txt
+
+ - File upload/download
+
+
+
+
+ - Mybatis
+ - selectKey 사용
+ 
+ - resultmap 사용
+	table 1 : 1 - association 관계
+			1 : N - collection 관계
+			 
+
+	메인테이블의 하위테이블 (1:N) 처리 방법
+	1. 서비스에서 각 DAO를 사용하여 직접 처리
+	2. mybatis에서 각 쿼리 호출
+	3. mybatis에서 left join 

@@ -4,6 +4,27 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.study.free.dao.IFreeBoardDao">
+
+	<resultMap type="com.study.free.vo.FreeBoardVO"
+				 id="freeBoardMap">
+		<id column="bo_no" 					property="boNo"/>
+		<result column="bo_title" 		property="boTitle"/>
+		<result column="bo_category"		property="boCategory"/>
+		<result column="bo_category_nm" property="boCategoryNm"/>
+		<result column="bo_writer" 		property="boWriter"/>
+		<result column="bo_pass" 			property="boPass"/>
+		<result column="bo_content" 		property="boContent"/>
+		<result column="bo_ip" 			property="boIp"/>
+		<result column="bo_hit" 			property="boHit"/>
+		<result column="bo_reg_date" 	property="boRegDate"/>
+		<result column="bo_mod_date" 	property="boModDate"/>
+		<result column="bo_del_yn" 		property="boDelYn"/>
+		<collection property="attaches"
+						ofType="com.study.attach.vo.AttachVO"
+						column="{atchParentNo=bo_no, atchCategory=bo_type}"
+						select="com.study.attach.dao.IAttachDao.getAttachByParentNoList"						
+						/>
+	</resultMap>	
 	
   <sql id="whereClause">
   	<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchCategory)">
@@ -58,7 +79,8 @@
 		<include refid="common.SUF_PAGING_SQL" />
   </select>
   
-  <select id="getBoard" parameterType="int" resultType="com.study.free.vo.FreeBoardVO">
+  <select id="getBoard" parameterType="int" resultMap="freeBoardMap">
+  <!--  resultType="com.study.free.vo.FreeBoardVO"> -->
 			SELECT bo_no        
 			     , bo_title     
 			     , bo_category  
@@ -70,19 +92,25 @@
 			     , bo_hit      
 			     , TO_CHAR(bo_reg_date,'YYYY.MM.DD HH24:MI') AS bo_reg_date 
 			     , TO_CHAR(bo_mod_date,'YYYY.MM.DD HH24:MI') AS bo_mod_date 
-			     , bo_del_yn    
+			     , bo_del_yn
+			     , 'FREE' AS bo_type
 			  FROM free_board   	
 			 WHERE bo_no = #{승주아빠나빠요}
   </select>
   
   <insert id="insertBoard" parameterType="com.study.free.vo.FreeBoardVO">
+<!-- FreeBoardVO의 insertBoard한 후의 nextval 값을 boNo에 저장해라 이걸 #{boNo}라고 쓰면 된다 -->
+	<selectKey resultType="int" keyProperty="boNo" order="BEFORE">
+		SELECT MAX(bo_no)+1 FROM free_board 
+	</selectKey>
+  
 			INSERT INTO free_board (                         
 				      bo_no       , bo_title  , bo_category    
 				    , bo_writer   , bo_pass   , bo_content     
 				    , bo_ip       , bo_hit    , bo_reg_date    
 				    , bo_del_yn  ) 			   
 				 VALUES (   			
-					 SEQ_FREE_BOARD.NEXTVAL , #{boTitle} , #{boCategory}				
+					   #{boNo}, #{boTitle} , #{boCategory}				
 					 , #{boWriter}  , #{boPass} , #{boContent}				
 					 , #{boIp} 			, 0         , SYSDATE	    
 					 , 'N' )			  

@@ -68,7 +68,7 @@
                 	<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 	&nbsp;&nbsp;비밀번호 변경
                 	</a></li>
-                <li><a href="<%=request.getContextPath() %>/mypage/info.wow">
+                <li><a href="<%=request.getContextPath() %>/question/questionList.wow">
                 	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 	&nbsp;&nbsp;1:1 문의 게시판
                 	</a></li>

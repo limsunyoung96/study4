@@ -35,6 +35,22 @@
 					<td>${boardVo.boWriter}</td>
 				</tr>
 				<!-- 비밀번호는 보여주지 않음  -->
+
+				<tr>
+					<th>첨부파일</th>
+					<td><c:forEach var="f" items="${boardVo.attaches}" varStatus="st">
+							<div>
+								# 파일 ${st.count} 
+								<a href="<c:url value='/attach/download/${f.atchNo}' />"target="_blank">
+									<span class="glyphicon glyphicon-save" aria-hidden="true"/> 
+									${f.atchOriginalName}
+								</a>
+								 Size : ${f.atchFancySize} 
+								 Down : ${f.atchDownHit}
+							</div>
+						</c:forEach></td>
+				</tr>
+
 				<tr>
 					<th>내용</th>
 					<td><pre>${boardVo.boContent}</pre></td>
@@ -52,7 +68,7 @@
 					<td>${boardVo.boRegDate}</td>
 				</tr>
 				<tr>
-					<th>등록일자</th>
+					<th>수정일자</th>
 					<td>${boardVo.boModDate}</td>
 				</tr>
 				<tr>

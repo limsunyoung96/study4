@@ -9,6 +9,7 @@
 <title>글 등록</title>
 
 <script type="text/javascript">
+
 	$(document).ready(function() {
 		// 파일 추가버튼 클릭 이벤트
 		$('#id_btn_new_file').click(function(){
@@ -18,7 +19,7 @@
 				+ '</div>');
 		}); // #id_btn_new_file.click
 		
-		//파일 삭제버튼 클릭 이벤트 (동적으로 추가된 객체의 이벤트 사용시 on...)
+		//파일 삭제버튼 클릭 이벤트 (동적으로 추가된 객체의 이벤트 사용시 on...) 
 		$('.file_area').on('click', '.btn_delete', function() {
 			$(this).closest('div').remove();
 		}); // .btn_delete_click
@@ -38,7 +39,8 @@
 	</div>
 	<div class="row" >
 	<%-- <form action="freeRegist.wow" method="post"> --%>
-	<form:form action="freeRegist.wow" modelAttribute="boardVO">
+	<form:form action="freeRegist.wow" modelAttribute="boardVO"
+				 method="post" enctype="multipart/form-data">
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />

@@ -6,17 +6,18 @@
 <html lang="ko">
 <head>
 <%@include file="/WEB-INF/inc/header.jsp"%>
-<title>글 등록</title>
+<title>문의 글 등록</title>
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
 <div class="container">
 	<div class="page-header">
-		<h3>글 등록</h3>
+		<h3>문의 글 등록</h3>
 	</div>
 	<div class="row" >
-	<%-- <form action="freeRegist.wow" method="post"> --%>
-	<form:form action="freeRegist.wow" modelAttribute="boardVO">
+	<%-- <form action="questionRegist.wow" method="post"> --%>
+	<form:form action="questionRegist.wow" modelAttribute="boardVO">
+	<form:hidden path="boId"/>
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />
@@ -32,7 +33,8 @@
 		<tr>
 			<th>작성자</th>
 			<td><!-- <input type="text" name="boWriter" value=""  class="form-control input-sm" > -->
-				<form:input path="boWriter" cssClass="form-control input-sm"/>
+			
+				<form:input path="boWriter" cssClass="form-control input-sm" />
 				<form:errors path="boWriter" />
 			</td>
 		</tr>
@@ -52,18 +54,8 @@
 					<form:options items="${categoryList}" itemLabel="commNm" itemValue="commCd" />
 			</form:select>
 			<form:errors path="boCategory"/>
-				<%-- <select name="boCategory" class="form-control input-sm" required="required">
-				<c:forEach items="${categoryList}" var="code">
-				<option value="${code.commCd}">${code.commNm}</option>
-				</c:forEach>
-				</select> --%>
-				<form:errors path="boCategory" />
 			</td>
 		</tr>
-		<tr>
-			<th>IP</th>
-			<td>${pageContext.request.remoteAddr}</td>
-		</tr>			
 		<tr>
 			<th>내용</th>
 			<td><%-- <textarea rows="3" name="boContent" class="form-control"></textarea> --%>
@@ -73,7 +65,7 @@
 		<tr>
 			<td colspan="2">
 					<div class="pull-left">
-						<a href="freeList.wow" class="btn btn-sm btn-default">목록으로</a>
+						<a href="questionList.wow" class="btn btn-sm btn-default">목록으로</a>
 					</div>
 					<div class="pull-right">
 						<button type="submit" class="btn btn-sm btn-primary">저장하기</button>

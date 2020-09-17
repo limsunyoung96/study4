@@ -24,8 +24,9 @@
 
 	<!-- AOP 포인컷 설정 // &amp; (&) -->
 	<aop:config>
-		<aop:advisor advice-ref="txAdvice" pointcut="execution( public * com.study.*.service.*Impl.*(..))" />
+		<aop:advisor advice-ref="txAdvice" 
+						pointcut="execution( public * com.study.*.service.*Impl.*(..))" />
 	</aop:config>
-<!-- execution() || execution( * com.study.servlet.*Impl.*(..)) -->
+	<!-- execution() || execution( * com.study.servlet.*Impl.*(..)) -->
 
 </beans>

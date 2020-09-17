@@ -58,6 +58,12 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		
 
 		<!-- Logging -->
 		<dependency>

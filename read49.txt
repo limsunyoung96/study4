@@ -38,6 +38,8 @@ read49.txt
 		
 - transaction 에서
 	rollback의 대상은 RuntimeException 에러가 발생했을 때
+	BizDuplicationException은
+	부모는 RuntimeException/ Exception 인가? 를 알고있어야 함
 	 
 
 - File upload/download

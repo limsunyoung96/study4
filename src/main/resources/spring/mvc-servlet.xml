@@ -62,9 +62,5 @@
 		<beans:property name="maxInMemorySize" 	   value="#{app['file.upload.memory.size']}"/>
 	</beans:bean>
 	
-
-	
-	
-	
 	
 </beans:beans>

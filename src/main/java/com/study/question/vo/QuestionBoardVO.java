@@ -35,11 +35,12 @@ public class QuestionBoardVO implements Serializable {
 	@Pattern(regexp = "\\w{4,16}", message = "알파벳, 숫자, 언더바(_) 4글자 이상 16글자 이하입니다.")
 	private String boPass; /* 비밀번호 */
 	private String boContent; /* 글 내용 */
-	private String boIp; /* 등록자 IP */
-	private int boHit; /* 조회수 */
 	private String boRegDate; /* 등록 일자 */
 	private String boModDate; /* 수정 일자 */
-	private String boDelYn; /* 삭제 여부 */
+	
+	@NotBlank
+	private String boId;
+	//private String boDelYn; /* 삭제 여부 */
 
 	// 추가된 필드,
 	private String boCategoryNm; /* 글 분류 명 */
@@ -69,16 +70,8 @@ public class QuestionBoardVO implements Serializable {
 		return boCategory;
 	}
 
-	public String getBoCategoryNm() {
-		return boCategoryNm;
-	}
-
 	public void setBoCategory(String boCategory) {
 		this.boCategory = boCategory;
-	}
-
-	public void setBoCategoryNm(String boCategoryNm) {
-		this.boCategoryNm = boCategoryNm;
 	}
 
 	public String getBoWriter() {
@@ -105,22 +98,6 @@ public class QuestionBoardVO implements Serializable {
 		this.boContent = boContent;
 	}
 
-	public String getBoIp() {
-		return boIp;
-	}
-
-	public void setBoIp(String boIp) {
-		this.boIp = boIp;
-	}
-
-	public int getBoHit() {
-		return boHit;
-	}
-
-	public void setBoHit(int boHit) {
-		this.boHit = boHit;
-	}
-
 	public String getBoRegDate() {
 		return boRegDate;
 	}
@@ -137,11 +114,21 @@ public class QuestionBoardVO implements Serializable {
 		this.boModDate = boModDate;
 	}
 
-	public String getBoDelYn() {
-		return boDelYn;
+	public String getBoId() {
+		return boId;
 	}
 
-	public void setBoDelYn(String boDelYn) {
-		this.boDelYn = boDelYn;
+	public void setBoId(String boId) {
+		this.boId = boId;
 	}
+
+	public String getBoCategoryNm() {
+		return boCategoryNm;
+	}
+
+	public void setBoCategoryNm(String boCategoryNm) {
+		this.boCategoryNm = boCategoryNm;
+	}
+
+
 }

@@ -17,7 +17,8 @@
 	<div class="row" >
 	<%-- <form action="questionRegist.wow" method="post"> --%>
 	<form:form action="questionRegist.wow" modelAttribute="boardVO">
-	<form:hidden path="boId"/>
+<% UserVO userVO = (UserVO)session.getAttribute("USER_INFO"); %>
+	<form:hidden  />
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />

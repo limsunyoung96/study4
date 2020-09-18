@@ -28,7 +28,7 @@ public class ManagerCheckFilter implements Filter {
 		UserVO user = (UserVO) session.getAttribute("USER_INFO");
 		
 		if(user == null) {
-			((HttpServletResponse)response).sendRedirect(req.getContextPath()+"/login/login.wow");
+			((HttpServletResponse)response).sendRedirect(req.getContextPath() + "/login/login.wow");
 		} else if(!user.getUserRole().contains("MANAGER")) {
 			resp.sendError(resp.SC_NOT_ACCEPTABLE);
 		} else {
@@ -36,7 +36,6 @@ public class ManagerCheckFilter implements Filter {
 		}
 		
 		//후처리
-
 	}
 
 }

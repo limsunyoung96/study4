@@ -17,8 +17,7 @@
 	<div class="row" >
 	<%-- <form action="questionRegist.wow" method="post"> --%>
 	<form:form action="questionRegist.wow" modelAttribute="boardVO">
-<% UserVO userVO = (UserVO)session.getAttribute("USER_INFO"); %>
-	<form:hidden  />
+	<%-- <form:hidden path="boId" /> --%>
 	<table class="table table-striped table-bordered">
 		<colgroup>
 			<col width="20%" />
@@ -31,11 +30,11 @@
 				<form:errors path="boTitle" />
 			</td>
 		</tr>
-		<tr>
+		<%-- <tr>
 			<th>작성자</th>
 			<td><!-- <input type="text" name="boWriter" value=""  class="form-control input-sm" > -->
-			
-				<form:input path="boWriter" cssClass="form-control input-sm" />
+				<input type="text" name="boWriter" value="${sessionScope.USER_INFO.userName}" disabled="disabled">
+				<form:input path="boWriter" cssClass="form-control input-sm" disabled=""/>
 				<form:errors path="boWriter" />
 			</td>
 		</tr>
@@ -46,7 +45,7 @@
 				<span >수정 또는 삭제시에 필요합니다.</span>
 				<form:errors path="boPass" />
 			</td>
-		</tr>
+		</tr> --%>
 		<tr>
 			<th>분류</th>
 			<td>

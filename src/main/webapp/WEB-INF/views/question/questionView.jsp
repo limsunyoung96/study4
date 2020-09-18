@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="mytag" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -16,7 +17,7 @@
 			</h3>
 		</div>
 
-		<table class="table table-striped table-bordered">
+		<table class="table table-striped table-bordered"> 
 			<tbody>
 				<tr>
 					<th>글번호</th>
@@ -44,7 +45,7 @@
 					<td>${boardVo.boRegDate}</td>
 				</tr>
 				<tr>
-					<th>등록일자</th>
+					<th>수정일자</th>
 					<td>${boardVo.boModDate}</td>
 				</tr>
 				<tr>
@@ -65,7 +66,7 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>
+		</table> 
 	</div>
 	<!-- container -->
 
@@ -73,6 +74,7 @@
 
 
 		<!-- // START : 댓글 등록 영역  -->
+		<mytag:sec hasRole="MANAGER">
 		<div class="panel panel-default">
 			<div class="panel-body form-horizontal">
 				<form name="frm_reply" action="<c:url value='/reply/replyRegist' />"
@@ -92,6 +94,7 @@
 				</form>
 			</div>
 		</div>
+		</mytag:sec>
 		<!-- // END : 댓글 등록 영역  -->
 
 

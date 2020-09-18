@@ -32,6 +32,22 @@
 	    
 	</select>
 	
+	<select id="getAttach" parameterType="int" resultType="com.study.attach.vo.AttachVO">
+		SELECT atch_no
+		     , atch_file_name
+		     , atch_original_name
+		     , atch_file_size
+		     , atch_content_type
+		     , atch_path
+		  FROM attach
+		 WHERE atch_no = #{atchNo}
+	</select>
+
+	<update id="increaseDownHit">
+		UPDATE attach
+		SET atch_down_hit = atch_down_hit + 1
+		WHERE atch_no = #{atchNo} 
+	</update>
 	
 
 </mapper>

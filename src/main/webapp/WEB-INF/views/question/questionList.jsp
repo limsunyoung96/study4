@@ -1,7 +1,8 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="mytage" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="mytage" tagdir="/WEB-INF/tags" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -31,8 +32,6 @@
 								class="form-control input-sm">
 								<option value="T"
 									${searchVO.searchType eq "T" ? "selected='selected'": "" }>제목</option>
-								<option value="W"
-									${searchVO.searchType eq "W" ? "selected='selected'": "" }>작성자</option>
 								<option value="C"
 									${searchVO.searchType eq "C" ? "selected='selected'": "" }>내용</option>
 							</select>
@@ -118,21 +117,34 @@
 					<th>제목</th>
 					<th>작성자</th>
 					<th>등록일</th>
-					<th>조회수</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="bo" items="${boards}">
-					<tr class="text-center">
-						<td>${bo.boNo}</td>
-						<td>${bo.boCategoryNm}</td>
-						<td class="text-left"><a href="questionView.wow?boNo=${bo.boNo}">
-								${bo.boTitle} </a></td>
-						<td>${bo.boWriter}</td>
-						<td>${bo.boModDate == null ? bo.boRegDate:bo.boModDate}</td>
-						<td>${bo.boHit}</td>
-					</tr>
-				</c:forEach>
+					<%-- <c:if test="${not empty sessionScope.USER_INFO}">
+						<c:when test="${fn:contains(sessionScope.USER_INFO.userRole, 'MANAGER')}">
+							<c:forEach var="bo" items="${boards}"> 
+									<tr class="text-center"> 
+										<td>${bo.boNo}</td>
+										<td>${bo.boCategoryNm}</td>
+										<td class="text-left"><a href="questionView.wow?boNo=${bo.boNo}">
+												${bo.boTitle} </a></td>
+										<td>${bo.boWriter}</td>
+										<td>${bo.boModDate == null ? bo.boRegDate : bo.boModDate}</td>
+									</tr>
+								</c:forEach> --%>
+						<c:forEach var="bo" items="${boards}">
+							<c:if test="${bo.boId eq sessionScope.USER_INFO.userId}" >
+								<tr class="text-center"> 
+									<td>${bo.boNo}</td>
+									<td>${bo.boCategoryNm}</td>
+									<td class="text-left"><a href="questionView.wow?boNo=${bo.boNo}">
+											${bo.boTitle} </a></td>
+									<td>${bo.boWriter}</td>
+									<td>${bo.boModDate == null ? bo.boRegDate : bo.boModDate}</td>
+								</tr>
+							</c:if>  
+						</c:forEach>
+			 
 			</tbody>
 		</table>
 

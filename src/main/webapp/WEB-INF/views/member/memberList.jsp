@@ -107,7 +107,11 @@
 					<span>&nbsp;검색닫기</span>
 				</a>
 			</div>
-			
+
+			<div>
+			<a id='btn_member_delete' class="btn btn-primary btn-sm pull-right">선택회원 탈퇴</a>
+			</div>		
+				
 			<div>
 			<a href="memberForm.wow" class="btn btn-primary btn-sm pull-right">회원등록</a>
 			</div>
@@ -117,6 +121,7 @@
 		<table class="table table-striped table-bordered">
 			<caption class="hidden">회원목록 조회</caption>
 			<colgroup>
+				<col style="width: 7%;" />
 				<col style="width: 15%;" />
 				<col />
 				<col style="width: 15%;" />
@@ -126,6 +131,7 @@
 			</colgroup>
 			<thead>
 				<tr>
+					<th><input type="checkbox" id="id_member_all_change")></th>
 					<th>ID</th>
 					<th>회원명</th>
 					<th>HP</th>
@@ -138,6 +144,7 @@
 			<!-- 아래의 스크립트 코드를 EL/JSTL 사용해서 변경 -->
 			<c:forEach var="member" items="${members}">
 				<tr>
+					<td><input type="checkbox" name="memId" value="${member.memId}"></td>
 					<td>${member.memId }</td>
 					<td><a href="memberView.wow?memId=${member.memId}">${member.memName}</a></td>
 					<td>${member.memHp}</td>
@@ -200,17 +207,26 @@
 			f.searchLike.options[0].selected = true;
 		});// #id_btn_reset . click
 		
-			
-		$('#id_search_area').on('hidden.bs.collapse', function() {
-			$('#id_search_show i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-			$('#id_search_show span').html("&nbsp; 검색열기")
-		})
-		$('#id_search_area').on('shown.bs.collapse', function() {
-			$('#id_search_show i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
-			$('#id_search_show span').html("&nbsp; 검색닫기")
-		})
-		
-		
+		// 회원 삭제 요청 클릭
+		$('#btn_member_delete').click(function(){
+			var params = $('input[type=checkbox][name=memId]').serialize();
+			location.href = 'memberCheckedDelete.wow?' + params; 
+		}); // #btn_memger_delete.click
+
+		$('#id_search_area').on(
+				'hidden.bs.collapse',
+				function() {
+					$('#id_search_show i').removeClass('fa-chevron-up')
+							.addClass('fa-chevron-down');
+					$('#id_search_show span').html("&nbsp; 검색열기")
+				})
+		$('#id_search_area').on(
+				'shown.bs.collapse',
+				function() {
+					$('#id_search_show i').removeClass('fa-chevron-down')
+							.addClass('fa-chevron-up');
+					$('#id_search_show span').html("&nbsp; 검색닫기")
+				})
 	</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html lang="ko">
 <head>
 <%@ include file="/WEB-INF/inc/header.jsp"%>
-<title>freeRegist.jsp</title>
+<title>questionRegist.jsp</title>
 </head>
 <body>
 	<div class="container">
@@ -22,7 +22,7 @@
 				<h4>글이 이미 존재합니다.</h4>
 			</div>
 		</c:if> --%>
-		<a href="freeList.wow" class="btn btn-info btn-sm"> <span
+		<a href="QuestionList.wow" class="btn btn-info btn-sm"> <span
 			class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			&nbsp;&nbsp;목록
 		</a>

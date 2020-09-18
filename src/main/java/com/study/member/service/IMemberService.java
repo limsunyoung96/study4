@@ -18,4 +18,5 @@ public interface IMemberService {
 	public MemberVO getMember(String memId) throws BizNotFoundException  ;
 	public List<MemberVO> getMemberList(MemberSearchVO searchVO);
 	
+	public void checkedMemberDelete(String[] checkedMemIds);
 }

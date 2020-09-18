@@ -51,11 +51,4 @@ public interface IQuestionBoardDao {
    */
   public int deleteBoard(QuestionBoardVO board);
   
-  /**
-   * <b>해당 게시물의 조회수 1 증가</b> 
- * @param boNo
-   * @return 영향받은 행수
-   */
-  public int increaseHit(int boNo);
-  
 }

@@ -1,7 +1,8 @@
 read50.txt
 
  - File upload/download
-
+ 	VO - List<MultipartFile> attaches;
+	<input type="file" name=""
 
 
 
@@ -11,7 +12,8 @@ read50.txt
  - resultmap 사용
 	table 1 : 1 - association 관계
 			1 : N - collection 관계
-			 
+	
+	<foreach />
 
 	메인테이블의 하위테이블 (1:N) 처리 방법
 	1. 서비스에서 각 DAO를 사용하여 직접 처리

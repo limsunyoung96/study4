@@ -2,11 +2,8 @@ package com.study.login.service;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Service;
 
-import com.study.common.util.MybatisSqlSessionFactory;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
 import com.study.login.vo.UserVO;

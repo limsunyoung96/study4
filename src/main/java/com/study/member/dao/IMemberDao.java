@@ -17,5 +17,7 @@ public interface IMemberDao {
 	public List<MemberVO> getMemberList(MemberSearchVO searchVO);
 	public int getMemberCount(MemberSearchVO searchVO);
 	
-	public String getUserRoleByUserId(String userId) ;
+	public String getUserRoleByUserId(String userId);
+	
+	public int updateMemberDelete(String[] checkedMemIds);
 }

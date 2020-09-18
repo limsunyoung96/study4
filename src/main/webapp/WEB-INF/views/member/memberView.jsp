@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="mytag"  tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -67,7 +68,7 @@
 							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 							&nbsp;목록
 					</a> 
-					
+					 
 					<mytag:sec hasRole="MANAGER">
 							<a href="memberEdit.wow?memId=${mem.memId}" class="btn btn-info btn-sm"> 
 								<span class="glyphicon glyphicon-knight" aria-hidden="true"></span>

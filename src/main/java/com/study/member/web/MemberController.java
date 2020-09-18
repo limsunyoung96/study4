@@ -202,4 +202,21 @@ public class MemberController {
 		model.addAttribute("messageVO", messageVO);
 		return "common/message";
 	}
+	
+	
+	@RequestMapping(path = "/member/memberCheckedDelete.wow", params = "memId") // memId  하나는 있어야해. 안그러면 실행 하지마 라는 뜻
+	public String memberCheckedDelete(@RequestParam(name="memId") String[] memIds
+											, ModelMap model) {
+		    
+		memberService.checkedMemberDelete(memIds);
+		ResultMessageVO message = new ResultMessageVO();
+		message.setResult(true)
+				 .setTitle("회원 탈퇴")
+				 .setMessage("회원을 탈퇴하셨습니다.")
+				 .setUrl("/member/memberList.wow")
+				 .setUrlTitle("목록으로");
+		model.addAttribute("messageVO", message);
+		return "common/message";
+		
+	}
 }

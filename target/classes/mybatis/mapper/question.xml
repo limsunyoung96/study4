@@ -14,9 +14,6 @@
   			<when test='searchType == "T"'>
   				AND bo_title LIKE  '%' || #{searchWord} || '%'
   			</when>
-  			<when test='searchType == "W"'>
-  				AND bo_writer LIKE  '%' || #{searchWord} || '%'
-  			</when>
   			<when test='searchType == "C"'>
   				AND bo_content LIKE  '%' || #{searchWord} || '%'
   			</when>
@@ -32,9 +29,8 @@
           parameterType="com.study.question.vo.QuestionBoardSearchVO" >
 		SELECT count(*)       
 		  FROM question_board     
-		 WHERE bo_id IS NOT NULL  
-		 <include refid="whereClause" />
-  </select>
+		 <!-- <include refid="whereClause" /> -->
+  </select> 
   
   <select id="getBoardList" resultType="com.study.question.vo.QuestionBoardVO" 
                             parameterType="com.study.question.vo.QuestionBoardSearchVO"  >                            
@@ -46,13 +42,13 @@
 			     , bo_writer   
 			     , bo_pass    
 			     , TO_CHAR(bo_reg_date,'YYYY.MM.DD') AS bo_reg_date 
-			     , bo_id   
-			  FROM question_board a, comm_code b  
-			 WHERE a.bo_category = b.comm_cd  
+			     , bo_id
+			  FROM question_board a, comm_code b
+			 WHERE a.bo_category = b.comm_cd
 			   <include refid="whereClause" />
 			  ORDER BY bo_no DESC  
 		<include refid="common.SUF_PAGING_SQL" />
-  </select>
+  </select> 
   
   <select id="getBoard" parameterType="int" resultType="com.study.question.vo.QuestionBoardVO">
 			SELECT bo_no        

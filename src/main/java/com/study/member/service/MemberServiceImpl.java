@@ -71,4 +71,9 @@ public class MemberServiceImpl implements IMemberService {
 		List<MemberVO> list = memberDao.getMemberList(searchVO);
 		return list;
 	}
+	
+	@Override
+	public void checkedMemberDelete(String[] checkedMemIds) {
+		memberDao.updateMemberDelete(checkedMemIds);
+	}
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -27,18 +26,18 @@ public class QuestionBoardVO implements Serializable {
 	@NotBlank(message = "글 분류는 필수입니다.")
 	private String boCategory; /* 글 분류 코드 */
 
-	@NotBlank(message = "작성자는 필수입니다.")
-	@Pattern(regexp = "[가-힣]{2,}", message = "한글 2글자 이상입니다.")
+//	@NotBlank(message = "작성자는 필수입니다.")
+//	@Pattern(regexp = "[가-힣]{2,}", message = "한글 2글자 이상입니다.")
 	private String boWriter; /* 작성자명 */
 
-	@NotBlank(message = "비밀번호는 필수입니다.")
-	@Pattern(regexp = "\\w{4,16}", message = "알파벳, 숫자, 언더바(_) 4글자 이상 16글자 이하입니다.")
+//	@NotBlank(message = "비밀번호는 필수입니다.")
+//	@Pattern(regexp = "\\w{4,16}", message = "알파벳, 숫자, 언더바(_) 4글자 이상 16글자 이하입니다.")
 	private String boPass; /* 비밀번호 */
 	private String boContent; /* 글 내용 */
 	private String boRegDate; /* 등록 일자 */
 	private String boModDate; /* 수정 일자 */
 	
-	@NotBlank
+//	@NotBlank
 	private String boId;
 	//private String boDelYn; /* 삭제 여부 */
 

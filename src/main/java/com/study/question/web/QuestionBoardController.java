@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.groups.Default;
 
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import com.study.common.vo.ResultMessageVO;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
 import com.study.exception.DaoDuplicateKeyException;
+import com.study.login.vo.UserVO;
 import com.study.question.service.IQuestionBoardService;
 import com.study.question.vo.QuestionBoardSearchVO;
 import com.study.question.vo.QuestionBoardVO;
@@ -64,7 +66,8 @@ public class QuestionBoardController {
 
 		List<QuestionBoardVO> boards = questionBoardService.getBoardList(searchVO);
 		model.addAttribute("boards", boards);
-
+		model.addAttribute("cateList", getCategoryList());
+  
 		return "question/questionList";
 	}
 
@@ -101,21 +104,29 @@ public class QuestionBoardController {
 	@RequestMapping(path = "/question/questionRegist.wow", method = RequestMethod.POST)
 	public ModelAndView questionRegist(
 			@ModelAttribute("boardVO") @Validated({ Default.class, RegistType.class }) QuestionBoardVO board,
-			@RequestParam("boId") String boID, BindingResult errors, HttpServletRequest req) throws Exception {
+			BindingResult errors, HttpServletRequest req, HttpSession session) throws Exception {
 		logger.debug("board={}", board);
-		logger.debug("========================================================****************************"); 
-		logger.debug("boID={}", boID);
 		ModelAndView mav = new ModelAndView();
 		ResultMessageVO message = new ResultMessageVO();
-
+		UserVO user = (UserVO) session.getAttribute("USER_INFO");
+		
 		if (errors.hasErrors()) {
 			mav.setViewName("/question/questionForm");
 			return mav;
 		}
 		try {
-			// 여기IP였어
-			board.setBoId(boID);
+			// 여기IP였어 
 			// board.setBoID(); // (req.getRemoteAddr());
+			
+			// 사용자 아이디
+			board.setBoId(user.getUserId());
+			
+			// 사용자 이름
+			board.setBoWriter(user.getUserName());
+			
+			// 게시글 비밀번호
+			board.setBoPass(user.getUserPass());
+			
 			questionBoardService.registBoard(board);
 			// 글 입력 성공시 메시지를 보여줄 필요 없이 바로 목록으로 가고자 한다면
 			// return "redirect:/question/questionList.wow";
